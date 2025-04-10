@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"engines": {
-		"node": ">=22"
+		"node": ">=20"
 	},
 	"scripts": {
 		"dev": "vite --host",
@@ -20,6 +20,7 @@
 		"vue": "^3.5.13"
 	},
 	"devDependencies": {
+		"@iconify/utils": "^2.3.0",
 		"@stylistic/eslint-plugin": "^4.2.0",
 		"@types/node": "^22.14.0",
 		"@unocss/eslint-config": "^66.1.0-beta.10",

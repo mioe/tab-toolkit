@@ -19,7 +19,7 @@ import HelloWorld from './components/HelloWorld.vue'
 			target="_blank"
 		>
 			<img
-				src="./assets/vue.svg"
+				src="./assets/icons/vue.svg"
 				class="logo vue"
 				alt="Vue logo"
 			/>
