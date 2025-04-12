@@ -1,29 +1,10 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-	<div>
-		<a
-			href="https://vite.dev"
-			target="_blank"
-		>
-			<img
-				src="/vite.svg"
-				class="logo"
-				alt="Vite logo"
-			/>
-		</a>
-		<a
-			href="https://vuejs.org/"
-			target="_blank"
-		>
-			<img
-				src="./assets/icons/vue.svg"
-				class="logo vue"
-				alt="Vue logo"
-			/>
-		</a>
+	<div class="flex flex-col min-h-[100svh] relative">
+		<main>
+			BB
+		</main>
+		<aside class="mt-auto sticky z-1">
+			GG
+		</aside>
 	</div>
-	<HelloWorld msg="Vite + Vue" />
 </template>
