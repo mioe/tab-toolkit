@@ -19,7 +19,7 @@ const { setBar, setCurrentBarIdx } = appStore
 				:key="`bar-${idx}`"
 				:class="[
 					{'ring-2 ring-blue-700': appStore.currentBarIdx === idx},
-					'flex flex-col-reverse px-[4px] py-[2px] rounded w-[25px] text-center',
+					'flex flex-col-reverse px-[4px] py-[2px] rounded w-[25px] text-center cursor-pointer',
 				]"
 				@click="setCurrentBarIdx(idx)"
 			>
@@ -28,9 +28,9 @@ const { setBar, setCurrentBarIdx } = appStore
 					:key="str"
 					class="relative"
 				>
-					<div class="bg-gray-200 h-[2px] w-[calc(100%+16px)] left-0 top-[50%] absolute -z-1" />
-					<p class="flex min-h-[22px]">
-						00
+					<div class="bg-gray-200 h-[2px] w-[calc(100%+16px)] left-0 top-[calc(50%-1px)] absolute -z-1" />
+					<p class="text-center min-h-[22px]">
+						{{ bar[str]?.tab }}
 					</p>
 				</div>
 			</div>

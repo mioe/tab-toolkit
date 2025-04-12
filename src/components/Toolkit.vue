@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const appStore = useAppStore()
-const { nextBar, prevBar, undo, redo, deleteBar } = appStore
+const { nextBar, prevBar, undo, redo, deleteBar, setTabInCurrentBarIdx, clearBar } = appStore
 
 const TABS = 25
 const strings = computed(() => appStore.settings.strings)
@@ -32,6 +32,7 @@ const strings = computed(() => appStore.settings.strings)
 							<button
 								v-for="str in strings"
 								:key="str"
+								@click="setTabInCurrentBarIdx(str, { tab: 0 })"
 							>
 								0
 							</button>
@@ -45,6 +46,7 @@ const strings = computed(() => appStore.settings.strings)
 								v-for="str in strings"
 								:key="str"
 								class="cursor-pointer"
+								@click="setTabInCurrentBarIdx(str, { tab })"
 							>
 								{{ tab }}
 							</button>
@@ -53,6 +55,7 @@ const strings = computed(() => appStore.settings.strings)
 							<button
 								v-for="str in strings"
 								:key="str"
+								@click="setTabInCurrentBarIdx(str, { tab: 'x' })"
 							>
 								X
 							</button>
@@ -84,7 +87,14 @@ const strings = computed(() => appStore.settings.strings)
 						</button>
 					</div>
 
-					<div>
+					<div class="flex gap-[8px]">
+						<button
+							class="btn"
+							:disabled="Object.values(appStore.currentNote.bars[appStore.currentBarIdx]).length === 0"
+							@click="clearBar"
+						>
+							clear
+						</button>
 						<button
 							class="btn"
 							:disabled="appStore.currentNote.bars.length <= 1"

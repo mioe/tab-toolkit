@@ -5,7 +5,6 @@ const APP_PREFIX = 'tab-toolkit'
 export const useAppStore = defineStore('app', () => {
 	const settings = useStorage(`${APP_PREFIX}:settings`, {
 		strings: 6,
-		leftHand: true,
 	})
 	const soloMode = useStorage(`${APP_PREFIX}:solo-mode`, false)
 
@@ -50,6 +49,27 @@ export const useAppStore = defineStore('app', () => {
 		commit()
 	}
 
+	function setTabInCurrentBarIdx(str: number, tab: any) {
+		const currentBar = currentNote.value.bars[currentBarIdx.value]
+
+		if (currentBar) {
+			if (currentBar[`${str}`] && JSON.stringify(currentBar[`${str}`]) === JSON.stringify(tab)) {
+				delete currentBar[`${str}`]
+			} else {
+				currentBar[`${str}`] = tab
+				if (soloMode.value) {
+					nextBar()
+				}
+			}
+			commit()
+		}
+	}
+
+	function clearBar() {
+		currentNote.value.bars[currentBarIdx.value] = {}
+		commit()
+	}
+
 	return {
 		settings,
 		soloMode,
@@ -64,6 +84,8 @@ export const useAppStore = defineStore('app', () => {
 		setCurrentBarIdx,
 		setBar,
 		deleteBar,
+		setTabInCurrentBarIdx,
+		clearBar,
 	}
 })
 
