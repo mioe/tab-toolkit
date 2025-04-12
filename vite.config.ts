@@ -9,30 +9,36 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // https://vitejs.dev/config/
-export default defineConfig({
-	resolve: {
-		alias: {
-			'~/': `${path.resolve(__dirname, 'src')}/`,
+export default defineConfig(({ command, mode }) => {
+	console.log('🦕 vite.config.ts/defineConfig', command, mode)
+
+	return {
+		base: mode === 'development' ? './' : '/tab-toolkit/',
+
+		resolve: {
+			alias: {
+				'~/': `${path.resolve(__dirname, 'src')}/`,
+			},
 		},
-	},
 
-	plugins: [
-		vue(),
+		plugins: [
+			vue(),
 
-		// https://github.com/unocss/unocss
-		Unocss(),
+			// https://github.com/unocss/unocss
+			Unocss(),
 
-		// https://github.com/antfu/unplugin-auto-import
-		AutoImport({
-			imports: [
-				'vue',
-				'@vueuse/core',
-			],
-			dts: 'src/auto-imports.d.ts',
-			dirs: [
-				'src/composables',
-			],
-			vueTemplate: true,
-		}),
-	],
+			// https://github.com/antfu/unplugin-auto-import
+			AutoImport({
+				imports: [
+					'vue',
+					'@vueuse/core',
+				],
+				dts: 'src/auto-imports.d.ts',
+				dirs: [
+					'src/composables',
+				],
+				vueTemplate: true,
+			}),
+		],
+	}
 })
