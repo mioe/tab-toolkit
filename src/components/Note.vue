@@ -28,7 +28,7 @@ const { setBar, setCurrentBarIdx } = appStore
 					:key="str"
 					class="relative"
 				>
-					<div class="bg-gray-200 h-[2px] w-[calc(100%+16px)] left-0 top-[calc(50%-1px)] absolute -z-1" />
+					<div class="bg-gray-100 h-[4px] w-[calc(100%+16px)] left-0 top-[calc(50%-2px)] absolute -z-1" />
 					<p class="text-center min-h-[22px]">
 						{{ bar[str]?.tab }}
 					</p>

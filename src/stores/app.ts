@@ -58,6 +58,9 @@ export const useAppStore = defineStore('app', () => {
 			} else {
 				currentBar[`${str}`] = tab
 				if (soloMode.value) {
+					if (currentBarIdx.value === currentNote.value.bars.length - 1) {
+						setBar()
+					}
 					nextBar()
 				}
 			}
