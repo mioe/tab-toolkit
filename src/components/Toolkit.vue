@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const appStore = useAppStore()
-const { nextBar, prevBar } = appStore
+const { nextBar, prevBar, undo, redo, deleteBar } = appStore
 
 const TABS = 25
 const strings = computed(() => appStore.settings.strings)
@@ -60,25 +60,54 @@ const strings = computed(() => appStore.settings.strings)
 					</div>
 				</div>
 
-				<footer class="flex flex-wrap gap-[8px]">
-					<button
-						:class="appStore.soloMode ? 'btn-active' : 'btn'"
-						@click="appStore.soloMode = !appStore.soloMode"
-					>
-						solo
-					</button>
-					<button
-						class="btn"
-						@click="prevBar"
-					>
-						prev
-					</button>
-					<button
-						class="btn"
-						@click="nextBar"
-					>
-						next
-					</button>
+				<footer class="flex flex-wrap gap-[8px] justify-between">
+					<div class="flex gap-[8px]">
+						<button
+							:class="appStore.soloMode ? 'btn-active' : 'btn'"
+							@click="appStore.soloMode = !appStore.soloMode"
+						>
+							solo
+						</button>
+						<button
+							class="btn"
+							:disabled="appStore.currentBarIdx === 0"
+							@click="prevBar"
+						>
+							prev
+						</button>
+						<button
+							class="btn"
+							:disabled="appStore.currentNote.bars.length - 1 === appStore.currentBarIdx"
+							@click="nextBar"
+						>
+							next
+						</button>
+					</div>
+
+					<div>
+						<button
+							class="btn"
+							:disabled="appStore.currentNote.bars.length <= 1"
+							@click="deleteBar"
+						>
+							delete
+						</button>
+					</div>
+
+					<div class="flex gap-[8px]">
+						<button
+							class="btn"
+							@click="undo"
+						>
+							undo
+						</button>
+						<button
+							class="btn"
+							@click="redo"
+						>
+							redo
+						</button>
+					</div>
 				</footer>
 			</div>
 		</details>

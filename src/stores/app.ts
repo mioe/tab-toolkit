@@ -20,7 +20,7 @@ export const useAppStore = defineStore('app', () => {
 	})
 	const currentBarIdx = ref(0)
 
-	const { history, commit, undo, redo } = useManualRefHistory(currentNote)
+	const { history, commit, undo, redo } = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
 
 	function nextBar() {
 		const size = currentNote.value.bars.length
@@ -44,6 +44,12 @@ export const useAppStore = defineStore('app', () => {
 		commit()
 	}
 
+	function deleteBar() {
+		if (currentNote.value.bars.length === 1) { return }
+		currentNote.value.bars.splice(currentBarIdx.value, 1)
+		commit()
+	}
+
 	return {
 		settings,
 		soloMode,
@@ -51,10 +57,13 @@ export const useAppStore = defineStore('app', () => {
 		currentBarIdx,
 		history,
 
+		undo,
+		redo,
 		nextBar,
 		prevBar,
 		setCurrentBarIdx,
 		setBar,
+		deleteBar,
 	}
 })
 
