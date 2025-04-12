@@ -1,10 +1,12 @@
+<script setup lang="ts">
+import Toolkit from '~/components/Toolkit.vue'
+</script>
+
 <template>
-	<div class="flex flex-col min-h-[100svh] relative">
+	<div class="flex flex-col min-h-[100svh] select-none relative">
 		<main>
 			BB
 		</main>
-		<aside class="mt-auto sticky z-1">
-			GG
-		</aside>
+		<Toolkit />
 	</div>
 </template>

@@ -7,4 +7,11 @@ import App from './App.vue'
 import './style.css'
 import 'uno.css'
 
-createApp(App).mount('#app')
+/**
+ * Modules
+ */
+import { pinia } from './modules/pinia'
+
+createApp(App)
+	.use(pinia)
+	.mount('#app')
