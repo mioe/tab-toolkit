@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/tab-toolkit/sw.js', { scope: '/tab-toolkit/' })})}
