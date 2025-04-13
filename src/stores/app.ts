@@ -40,14 +40,22 @@ export const useAppStore = defineStore('app', () => {
 		currentBarIdx.value = idx
 	}
 
-	function setBar() {
-		currentNote.value.bars.push({})
+	function setBar(size = 1) {
+		if (size > 10) { return }
+		for (let i=0; i < size; i++) {
+			currentNote.value.bars.push({})
+		}
 		commit()
 	}
 
 	function deleteBar() {
 		if (currentNote.value.bars.length === 1) { return }
-		currentNote.value.bars.splice(currentBarIdx.value, 1)
+		if (currentBarIdx.value === currentNote.value.bars.length - 1) {
+			currentBarIdx.value--
+			currentNote.value.bars.splice(currentNote.value.bars.length - 1, 1)
+		} else {
+			currentNote.value.bars.splice(currentBarIdx.value, 1)
+		}
 		commit()
 	}
 

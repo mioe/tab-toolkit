@@ -53,12 +53,21 @@ const { setBar, setCurrentBarIdx } = appStore
 					</p>
 				</div>
 			</div>
-			<button
-				class="btn min-h-[130px]"
-				@click="setBar"
-			>
-				+
-			</button>
+			<div class="flex flex-col min-h-[130px]">
+				<button
+					class="btn flex-1"
+					style="border-bottom: none; border-bottom-right-radius: 0; border-bottom-left-radius: 0;"
+					@click="setBar(10)"
+				>
+					+
+				</button>
+				<button
+					class="btn flex-1"
+					style="border-top-right-radius: 0; border-top-left-radius: 0;"
+				>
+					;
+				</button>
+			</div>
 		</div>
 	</main>
 </template>
