@@ -9,16 +9,23 @@ const { setBar, setCurrentBarIdx } = appStore
 			<input
 				v-model="appStore.currentNote.name"
 				type="text"
-				class="px-[8px] py-[4px] border border-gray-200 rounded-xl w-full"
+				class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-xl w-full"
 			/>
 		</header>
+
+		<div>
+			<div class="bg-[#e64953] h-4 w-4"></div>
+			<div class="bg-[#74de6b] h-4 w-4"></div>
+			<div class="bg-[#52b5f9] h-4 w-4"></div>
+			<div class="bg-[#fadf62] h-4 w-4"></div>
+		</div>
 
 		<div class="flex flex-wrap gap-x-[8px] gap-y-[16px]">
 			<div
 				v-for="(bar, idx) in appStore.currentNote.bars"
 				:key="`bar-${idx}`"
 				:class="[
-					{'ring-2 ring-blue-700': appStore.currentBarIdx === idx},
+					{'ring-2 ring-gray-200': appStore.currentBarIdx === idx},
 					'flex flex-col-reverse px-[4px] py-[2px] rounded w-[25px] text-center cursor-pointer',
 				]"
 				@click="setCurrentBarIdx(idx)"

@@ -1,6 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 const APP_PREFIX = 'tab-toolkit'
+const FINGERS = 5
 
 export const useAppStore = defineStore('app', () => {
 	const settings = useStorage(`${APP_PREFIX}:settings`, {
@@ -18,6 +19,7 @@ export const useAppStore = defineStore('app', () => {
 		bars: [{}],
 	})
 	const currentBarIdx = ref(0)
+	const currentFingerIdx = ref(0)
 
 	const { history, commit, undo, redo } = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
 
@@ -51,12 +53,16 @@ export const useAppStore = defineStore('app', () => {
 
 	function setTabInCurrentBarIdx(str: number, tab: any) {
 		const currentBar = currentNote.value.bars[currentBarIdx.value]
+		const tabWithColor = tab
+		if (currentFingerIdx.value > 0 && currentFingerIdx.value < FINGERS) {
+			tabWithColor['finger'] = currentFingerIdx.value
+		}
 
 		if (currentBar) {
-			if (currentBar[`${str}`] && JSON.stringify(currentBar[`${str}`]) === JSON.stringify(tab)) {
+			if (currentBar[`${str}`] && JSON.stringify(currentBar[`${str}`]) === JSON.stringify(tabWithColor)) {
 				delete currentBar[`${str}`]
 			} else {
-				currentBar[`${str}`] = tab
+				currentBar[`${str}`] = tabWithColor
 				if (soloMode.value) {
 					if (currentBarIdx.value === currentNote.value.bars.length - 1) {
 						setBar()
@@ -73,12 +79,26 @@ export const useAppStore = defineStore('app', () => {
 		commit()
 	}
 
+	function nextFinger() {
+		if (currentFingerIdx.value < FINGERS - 1) {
+			currentFingerIdx.value++
+		} else {
+			currentFingerIdx.value = 0
+		}
+	}
+
+	function setFinger(idx: number) {
+		if (currentFingerIdx.value >= FINGERS) { return }
+		currentFingerIdx.value = idx
+	}
+
 	return {
 		settings,
 		soloMode,
 		currentNote,
 		currentBarIdx,
 		history,
+		currentFingerIdx,
 
 		undo,
 		redo,
@@ -89,6 +109,8 @@ export const useAppStore = defineStore('app', () => {
 		deleteBar,
 		setTabInCurrentBarIdx,
 		clearBar,
+		nextFinger,
+		setFinger,
 	}
 })
 

@@ -14,6 +14,7 @@ export default defineConfig({
 	],
 	rules: [
 		['scrolling-touch', { '-webkit-overflow-scrolling': 'touch' }],
+		['anime', { transition: 'var(--transition)' }],
 	],
 	presets: [
 		presetWind4(),

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Hand from './Hand.vue'
 const appStore = useAppStore()
 const { nextBar, prevBar, undo, redo, deleteBar, setTabInCurrentBarIdx, clearBar } = appStore
 
@@ -13,7 +14,9 @@ const strings = computed(() => appStore.settings.strings)
 				Toolkit
 			</summary>
 			<div class="flex flex-col gap-[8px]">
-				<div class="text-[18px] relative">
+				<Hand />
+
+				<div class="text-[18px] bg-white relative">
 					<div class="py-[8px] flex flex-col-reverse gap-[4px] w-full left-0 top-[1px] absolute">
 						<div
 							v-for="str in strings"
