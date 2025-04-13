@@ -4,7 +4,7 @@ const appStore = useAppStore()
 const { nextBar, prevBar, undo, redo, deleteBar, setTabInCurrentBarIdx, clearBar } = appStore
 
 const TABS = 25
-const strings = computed(() => appStore.settings.strings)
+const strings = computed(() => appStore.currentNote.strings)
 </script>
 
 <template>

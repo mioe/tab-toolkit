@@ -25,7 +25,7 @@ const { setBar, setCurrentBarIdx } = appStore
 				@click="setCurrentBarIdx(idx)"
 			>
 				<div
-					v-for="str in appStore.settings.strings"
+					v-for="str in appStore.currentNote.strings"
 					:key="str"
 					class="relative"
 				>

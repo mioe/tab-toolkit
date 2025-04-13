@@ -1,24 +1,24 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
 const FINGERS = 5
 
 export const useAppStore = defineStore('app', () => {
-	const settings = useStorage(`${APP_PREFIX}:settings`, {
-		strings: 6,
-	})
 	const soloMode = useStorage(`${APP_PREFIX}:solo-mode`, false)
 
 	const currentNote = useStorage<{
 		id: string
 		name: string
+		strings: number
 		bars: any
 	}>(`${APP_PREFIX}:current-note`, {
 		id: crypto.randomUUID(),
-		name: 'Song',
-		bars: [{}],
+		name: DEFAULT_NAME,
+		strings: DEFAULT_STRING,
+		bars: DEFAULT_BARS,
 	})
-	const currentBarIdx = ref(0)
+	const currentBarIdx = ref(DEFAULT_BAR_IDX)
 	const currentFingerIdx = ref(0)
 
 	const { history, commit, undo, redo } = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
@@ -101,7 +101,6 @@ export const useAppStore = defineStore('app', () => {
 	}
 
 	return {
-		settings,
 		soloMode,
 		currentNote,
 		currentBarIdx,
