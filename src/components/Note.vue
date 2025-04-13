@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ColorFinger } from '~/consts'
 const appStore = useAppStore()
 const { setBar, setCurrentBarIdx } = appStore
 </script>
@@ -13,20 +14,13 @@ const { setBar, setCurrentBarIdx } = appStore
 			/>
 		</header>
 
-		<div>
-			<div class="bg-[#e64953] h-4 w-4"></div>
-			<div class="bg-[#74de6b] h-4 w-4"></div>
-			<div class="bg-[#52b5f9] h-4 w-4"></div>
-			<div class="bg-[#fadf62] h-4 w-4"></div>
-		</div>
-
 		<div class="flex flex-wrap gap-x-[8px] gap-y-[16px]">
 			<div
 				v-for="(bar, idx) in appStore.currentNote.bars"
 				:key="`bar-${idx}`"
 				:class="[
 					{'ring-2 ring-gray-200': appStore.currentBarIdx === idx},
-					'flex flex-col-reverse px-[4px] py-[2px] rounded w-[25px] text-center cursor-pointer',
+					'flex flex-col-reverse p-[2px] rounded w-[25px] text-center cursor-pointer',
 				]"
 				@click="setCurrentBarIdx(idx)"
 			>
@@ -36,7 +30,25 @@ const { setBar, setCurrentBarIdx } = appStore
 					class="relative"
 				>
 					<div class="bg-gray-100 h-[4px] w-[calc(100%+16px)] left-0 top-[calc(50%-2px)] absolute -z-1" />
-					<p class="text-center min-h-[22px]">
+					<p
+						:class="[
+							{
+								'bg-[--c] bg-opacity-30': bar[str]?.finger,
+							},
+							'text-center min-h-[22px] rounded-xl',
+						]"
+						:style="{
+							'--c': bar[str]?.finger === 1
+								? ColorFinger.finger1
+								: bar[str]?.finger === 2
+									? ColorFinger.finger2
+									: bar[str]?.finger === 3
+										? ColorFinger.finger3
+										: bar[str]?.finger === 4
+											? ColorFinger.finger4
+											: undefined,
+						}"
+					>
 						{{ bar[str]?.tab }}
 					</p>
 				</div>
