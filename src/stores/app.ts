@@ -1,21 +1,37 @@
+import { entries, set as setIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
 const FINGERS = 5
 
+interface Tab {
+	tab?: number
+	finger?: number
+}
+
+interface Bar {
+	[stringNumber: string]: Tab | undefined
+}
+
+interface Note {
+	id: string
+	name: string
+	strings: number
+	savedAt: number | null
+	bars: Bar[]
+}
+
 export const useAppStore = defineStore('app', () => {
+	const db = ref<Note[]>([])
+
 	const soloMode = useStorage(`${APP_PREFIX}:solo-mode`, false)
 
-	const currentNote = useStorage<{
-		id: string
-		name: string
-		strings: number
-		bars: any
-	}>(`${APP_PREFIX}:current-note`, {
+	const currentNote = useStorage<Note>(`${APP_PREFIX}:current-note`, {
 		id: crypto.randomUUID(),
 		name: DEFAULT_NAME,
 		strings: DEFAULT_STRING,
+		savedAt: null,
 		bars: DEFAULT_BARS,
 	})
 	const currentBarIdx = ref(DEFAULT_BAR_IDX)
@@ -100,7 +116,35 @@ export const useAppStore = defineStore('app', () => {
 		currentFingerIdx.value = idx
 	}
 
+	function setDefaultNode() {
+		currentNote.value.id = crypto.randomUUID()
+		currentNote.value.name = DEFAULT_NAME
+		currentNote.value.strings = DEFAULT_STRING
+		currentNote.value.savedAt = null
+		currentNote.value.bars = DEFAULT_BARS
+
+		currentBarIdx.value = DEFAULT_BAR_IDX
+	}
+
+	async function getIdbNotes() {
+		const result = await entries()
+		result.forEach(([key, val]) => {
+			const note = { id: key, ...val } as Note
+			db.value.push(note)
+		})
+	}
+
+	async function saveIdbNote() {
+		const clone = JSON.parse(JSON.stringify(currentNote.value))
+		delete clone.id
+		clone.savedAt = Date.now()
+		await setIdb(currentNote.value.id, clone)
+		db.value.push(JSON.parse(JSON.stringify(currentNote.value)))
+		setDefaultNode()
+	}
+
 	return {
+		db,
 		soloMode,
 		currentNote,
 		currentBarIdx,
@@ -118,6 +162,8 @@ export const useAppStore = defineStore('app', () => {
 		clearBar,
 		nextFinger,
 		setFinger,
+		saveIdbNote,
+		getIdbNotes,
 	}
 })
 

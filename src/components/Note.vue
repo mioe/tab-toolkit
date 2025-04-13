@@ -1,17 +1,33 @@
 <script setup lang="ts">
 import { ColorFinger } from '~/consts'
 const appStore = useAppStore()
-const { setBar, setCurrentBarIdx } = appStore
+const { setBar, setCurrentBarIdx, saveIdbNote, getIdbNotes } = appStore
 </script>
 
 <template>
 	<main class="p-[16px] flex flex-col gap-[16px]">
-		<header>
+		<div class="flex">
+			{{ appStore.db }}
+		</div>
+
+		<div>
+			<button @click="getIdbNotes">
+				ff
+			</button>
+		</div>
+
+		<header class="flex gap-[8px]">
 			<input
 				v-model="appStore.currentNote.name"
 				type="text"
 				class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-xl w-full"
 			/>
+			<button
+				class="btn px-[8px] rounded-xl"
+				@click="saveIdbNote"
+			>
+				save
+			</button>
 		</header>
 
 		<div class="flex flex-wrap gap-x-[8px] gap-y-[16px]">
