@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import Progress from '~/components/_common/Progress.vue'
 const appStore = useAppStore()
-const { removeIdbNote, selectIdbNote } = appStore
+const { removeIdbNote, selectIdbNote, createNewNote } = appStore
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
 const selectedNoteId = ref<string | null>(null)
+
+const btnNewNoteRef = shallowRef()
+const { pressed: btnNewNotePressed } = useMousePressed({ target: btnNewNoteRef })
+async function onLongPressNewNoteCallback() {
+	btnNewNotePressed.value = false
+	await createNewNote()
+}
+onLongPress(btnNewNoteRef, onLongPressNewNoteCallback, { delay: 1100 })
 
 const btnRemoveRef = shallowRef()
 const { pressed: btnRemovePressed } = useMousePressed({ target: btnRemoveRef })
@@ -22,6 +30,7 @@ async function onLongPressEditCallback() {
 	btnEditPressed.value = false
 	if (!selectedNoteId.value) { return }
 	await selectIdbNote(selectedNoteId.value)
+	dialogRef.value?.close()
 }
 onLongPress(btnEditRef, onLongPressEditCallback, { delay: 1100 })
 
@@ -72,6 +81,18 @@ defineExpose({
 					</button>
 				</header>
 
+				<button
+					v-if="appStore.currentNote.savedAt"
+					ref="btnNewNoteRef"
+					class="btn px-[8px] rounded-xl flex-1 relative"
+				>
+					<Progress
+						v-if="btnNewNotePressed"
+						class="text-blue-300 border-blue-700 rounded-xl"
+					/>
+					create new note
+				</button>
+
 				<div
 					v-if="appStore.db.length"
 					class="flex flex-col gap-[8px]"
@@ -83,8 +104,12 @@ defineExpose({
 						<div class="flex flex-wrap gap-[8px]">
 							<button
 								disabled
-								class="btn"
+								class="btn relative"
 							>
+								<Progress
+									v-if="false"
+									class="text-blue-300 border-blue-700"
+								/>
 								share
 							</button>
 							<button
@@ -96,7 +121,7 @@ defineExpose({
 									v-if="btnEditPressed"
 									class="text-green-300 border-green-700"
 								/>
-								edit
+								edit/view
 							</button>
 							<button
 								ref="btnRemoveRef"
@@ -114,14 +139,23 @@ defineExpose({
 					<article
 						v-for="note in appStore.db"
 						:key="note.id"
-						class="p-[8px] border border-gray-200 rounded-xl flex gap-[16px] justify-between"
+						:class="[
+							note.id === appStore.currentNote.id ? 'border-sky border-dashed bg-sky-100' : 'border-gray-200',
+							'p-[8px] border rounded-xl flex gap-[16px] justify-between',
+						]"
 					>
 						<label
 							:for="note.id"
 							class="flex flex-1 flex-col cursor-pointer justify-center"
 						>
 							<header>
-								<p>{{ note.name }}</p>
+								<p>
+									{{ note.name }}
+									<span
+										v-if="note.id === appStore.currentNote.id"
+										class="text-sky"
+									>[wip]</span>
+								</p>
 								<p
 									v-if="note.savedAt"
 									class="text-[8px]"

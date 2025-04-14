@@ -2,7 +2,7 @@
 import Dialog from './Dialog.vue'
 import { ColorFinger } from '~/consts'
 const appStore = useAppStore()
-const { setBar, setCurrentBarIdx, saveIdbNote } = appStore
+const { setBar, setCurrentBarIdx, saveIdbNote, updateIdbNote } = appStore
 const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 </script>
 
@@ -22,7 +22,14 @@ const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 				class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-xl w-full"
 			/>
 			<button
-				v-if="!appStore.currentNote.savedAt"
+				v-if="appStore.currentNote.savedAt"
+				class="btn px-[8px] rounded-xl"
+				@click="updateIdbNote"
+			>
+				update
+			</button>
+			<button
+				v-else
 				class="btn px-[8px] rounded-xl"
 				@click="saveIdbNote"
 			>

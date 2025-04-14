@@ -1,4 +1,4 @@
-import { entries as entriesIdb, set as setIdb, del as delIdb } from 'idb-keyval'
+import { entries as entriesIdb, set as setIdb, del as delIdb, update as updateIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import type { Note, Bar } from '~/consts'
 import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
@@ -23,7 +23,7 @@ export const useAppStore = defineStore('app', () => {
 		name: DEFAULT_NAME,
 		strings: DEFAULT_STRING,
 		savedAt: null,
-		bars: DEFAULT_BARS,
+		bars: JSON.parse(DEFAULT_NOTE_STRING_WITHOUT_ID).bars,
 	})
 	const currentBarIdx = ref(DEFAULT_BAR_IDX)
 	const currentFingerIdx = ref(0)
@@ -127,7 +127,7 @@ export const useAppStore = defineStore('app', () => {
 	}
 
 	function setDefaultNote() {
-		setNote(DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS)
+		setNote(DEFAULT_NAME, DEFAULT_STRING, JSON.parse(DEFAULT_NOTE_STRING_WITHOUT_ID).bars)
 	}
 
 	async function getIdbNotes() {
@@ -138,30 +138,72 @@ export const useAppStore = defineStore('app', () => {
 		})
 	}
 
+	function getCloneCurrentNote(withoutId = true) {
+		const clone = JSON.parse(JSON.stringify(currentNote.value))
+		if (withoutId) { delete clone.id }
+		return clone
+	}
+
+	async function savedDraftNote() {
+		if (!currentNote.value.savedAt) {
+			const cloneCurrentNote = getCloneCurrentNote()
+			if (JSON.stringify(cloneCurrentNote) !== DEFAULT_NOTE_STRING_WITHOUT_ID) {
+				currentNote.value.name = `[draft] ${currentNote.value.name}`
+				await saveIdbNote()
+			}
+		} else {
+			const fNote = db.value.find((note) => note.id === currentNote.value.id)
+			const cloneStrFNote = JSON.stringify(fNote)
+			const cloneStrCurrentNote = JSON.stringify(getCloneCurrentNote(false))
+			if (cloneStrFNote !== cloneStrCurrentNote) {
+				await updateIdbNote()
+			}
+		}
+	}
+
+	async function createNewNote() {
+		await savedDraftNote()
+		setDefaultNote()
+	}
+
 	async function saveIdbNote() {
 		currentNote.value.savedAt = Date.now()
-		const clone = JSON.parse(JSON.stringify(currentNote.value))
-		delete clone.id
+		const clone = getCloneCurrentNote()
 		await setIdb(currentNote.value.id, clone)
 		db.value.push(JSON.parse(JSON.stringify(currentNote.value)))
 		setDefaultNote()
+	}
+
+	async function updateIdbNote() {
+		currentNote.value.savedAt = Date.now()
+		const clone = getCloneCurrentNote()
+		await updateIdb(currentNote.value.id, (val) => ({
+			...val,
+			name: clone.name,
+			strings: clone.strings,
+			bars: clone.bars,
+			savedAt: clone.savedAt,
+		}))
+		const fNote = db.value.find((note) => note.id === currentNote.value.id)
+		if (fNote) {
+			fNote.name = currentNote.value.name
+			fNote.strings = currentNote.value.strings
+			fNote.bars = currentNote.value.bars
+			fNote.savedAt = Date.now()
+		}
 	}
 
 	async function removeIdbNote(noteId: string) {
 		const fNoteIdx = db.value.findIndex((note) => note.id === noteId)
 		db.value.splice(fNoteIdx, 1)
 		await delIdb(noteId)
+		if (noteId === currentNote.value.id) {
+			setDefaultNote()
+		}
 	}
 
 	async function selectIdbNote(noteId: string) {
-		if (!currentNote.value.savedAt) {
-			const cloneCurrentNote = JSON.parse(JSON.stringify(currentNote.value))
-			delete cloneCurrentNote.id
-			if (JSON.stringify(cloneCurrentNote) !== DEFAULT_NOTE_STRING_WITHOUT_ID) {
-				currentNote.value.name = `[draft] ${currentNote.value.name}`
-				await saveIdbNote()
-			}
-		}
+		await savedDraftNote()
 
 		const fNote = db.value.find((note) => note.id === noteId)
 		if (fNote) {
@@ -190,6 +232,8 @@ export const useAppStore = defineStore('app', () => {
 		getIdbNotes,
 		removeIdbNote,
 		selectIdbNote,
+		updateIdbNote,
+		createNewNote,
 	}
 })
 
