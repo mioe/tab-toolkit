@@ -14,6 +14,8 @@ const DEFAULT_NOTE_STRING_WITHOUT_ID = JSON.stringify({
 })
 
 export const useAppStore = defineStore('app', () => {
+	const params = useUrlSearchParams('history')
+
 	const db = ref<Note[]>([])
 
 	const soloMode = useStorage(`${APP_PREFIX}:solo-mode`, false)
@@ -27,6 +29,7 @@ export const useAppStore = defineStore('app', () => {
 	})
 	const currentBarIdx = ref(DEFAULT_BAR_IDX)
 	const currentFingerIdx = ref(0)
+	const sharedNote = ref<Note | null>(null)
 
 	const historyRef = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
 	const { commit } = historyRef
@@ -211,13 +214,38 @@ export const useAppStore = defineStore('app', () => {
 		}
 	}
 
+	async function encodedNote(noteId: string) {
+		await savedDraftNote()
+
+		const fNote = db.value.find((note) => note.id === noteId)
+		if (fNote) {
+			const cloneStrFNote = JSON.stringify(fNote)
+			const encoded = btoa(cloneStrFNote)
+			params.n = encoded
+		}
+	}
+
+	async function decodedNote() {
+		try {
+			if (params?.n) {
+				const strNote = atob(decodeURIComponent(params.n as string))
+				sharedNote.value = JSON.parse(strNote)
+			}
+		} catch (err) {
+			console.error(err)
+			delete params.n
+		}
+	}
+
 	return {
+		params,
 		db,
 		soloMode,
 		currentNote,
 		currentBarIdx,
 		historyRef,
 		currentFingerIdx,
+		sharedNote,
 
 		nextBar,
 		prevBar,
@@ -234,6 +262,8 @@ export const useAppStore = defineStore('app', () => {
 		selectIdbNote,
 		updateIdbNote,
 		createNewNote,
+		encodedNote,
+		decodedNote,
 	}
 })
 

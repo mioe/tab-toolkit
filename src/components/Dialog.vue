@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Progress from '~/components/_common/Progress.vue'
+import Badge from '~/components/_common/Badge.vue'
 const appStore = useAppStore()
-const { removeIdbNote, selectIdbNote, createNewNote } = appStore
+const { removeIdbNote, selectIdbNote, createNewNote, encodedNote } = appStore
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
 const selectedNoteId = ref<string | null>(null)
@@ -33,6 +34,15 @@ async function onLongPressEditCallback() {
 	dialogRef.value?.close()
 }
 onLongPress(btnEditRef, onLongPressEditCallback, { delay: 1100 })
+
+const btnShareRef = shallowRef()
+const { pressed: btnSharePressed } = useMousePressed({ target: btnShareRef })
+async function onLongPressShareCallback() {
+	btnSharePressed.value = false
+	if (!selectedNoteId.value) { return }
+	await encodedNote(selectedNoteId.value)
+}
+onLongPress(btnShareRef, onLongPressShareCallback, { delay: 1100 })
 
 function open() {
 	selectedNoteId.value = null
@@ -103,11 +113,12 @@ defineExpose({
 						</h2>
 						<div class="flex flex-wrap gap-[8px]">
 							<button
-								disabled
+								ref="btnShareRef"
+								:disabled="!selectedNoteId"
 								class="btn relative"
 							>
 								<Progress
-									v-if="false"
+									v-if="btnSharePressed"
 									class="text-blue-300 border-blue-700"
 								/>
 								share
@@ -181,18 +192,7 @@ defineExpose({
 					</article>
 				</div>
 
-				<footer class="mt-auto flex bottom-[16px] justify-center sticky">
-					<p class="text-[10px] px-[8px] py-[1px] rounded-full bg-white shadow">
-						tab-toolkit_v0
-						<a
-							href="https://github.com/mioe/tab-toolkit"
-							target="_blank"
-							class="text-green-600 underline underline-dashed"
-						>
-							by mioe
-						</a>
-					</p>
-				</footer>
+				<Badge />
 			</div>
 		</dialog>
 	</Teleport>

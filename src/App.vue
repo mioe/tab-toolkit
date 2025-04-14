@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Note from '~/components/Note.vue'
 import Toolkit from '~/components/Toolkit.vue'
+import Readonly from '~/components/Readonly.vue'
 
 const appStore = useAppStore()
 const { getIdbNotes } = appStore
@@ -27,8 +28,13 @@ onMounted(async() => {
 			<p>waiting...</p>
 		</div>
 		<template v-else>
-			<Note />
-			<Toolkit />
+			<template v-if="appStore.params?.n">
+				<Readonly />
+			</template>
+			<template v-else>
+				<Note />
+				<Toolkit />
+			</template>
 		</template>
 	</div>
 </template>
