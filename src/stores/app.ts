@@ -37,7 +37,8 @@ export const useAppStore = defineStore('app', () => {
 	const currentBarIdx = ref(DEFAULT_BAR_IDX)
 	const currentFingerIdx = ref(0)
 
-	const { history, commit, undo, redo } = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
+	const historyRef = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
+	const { commit } = historyRef
 
 	function nextBar() {
 		const size = currentNote.value.bars.length
@@ -124,6 +125,8 @@ export const useAppStore = defineStore('app', () => {
 		currentNote.value.bars = DEFAULT_BARS
 
 		currentBarIdx.value = DEFAULT_BAR_IDX
+
+		historyRef.clear()
 	}
 
 	async function getIdbNotes() {
@@ -148,11 +151,9 @@ export const useAppStore = defineStore('app', () => {
 		soloMode,
 		currentNote,
 		currentBarIdx,
-		history,
+		historyRef,
 		currentFingerIdx,
 
-		undo,
-		redo,
 		nextBar,
 		prevBar,
 		setCurrentBarIdx,

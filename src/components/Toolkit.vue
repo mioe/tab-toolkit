@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Hand from './Hand.vue'
 const appStore = useAppStore()
-const { nextBar, prevBar, undo, redo, deleteBar, setTabInCurrentBarIdx, clearBar } = appStore
+const { nextBar, prevBar, historyRef, deleteBar, setTabInCurrentBarIdx, clearBar } = appStore
 
 const TABS = 25
 const strings = computed(() => appStore.currentNote.strings)
@@ -110,13 +110,15 @@ const strings = computed(() => appStore.currentNote.strings)
 					<div class="flex gap-[8px]">
 						<button
 							class="btn"
-							@click="undo"
+							:disabled="!historyRef.canUndo"
+							@click="historyRef.undo"
 						>
 							undo
 						</button>
 						<button
 							class="btn"
-							@click="redo"
+							:disabled="!historyRef.canRedo"
+							@click="historyRef.redo"
 						>
 							redo
 						</button>

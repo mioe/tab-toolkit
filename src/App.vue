@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import Note from '~/components/Note.vue'
 import Toolkit from '~/components/Toolkit.vue'
+
+const appStore = useAppStore()
+const { getIdbNotes } = appStore
+
+onMounted(async() => {
+	await getIdbNotes()
+})
 </script>
 
 <template>
