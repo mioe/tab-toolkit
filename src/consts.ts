@@ -11,12 +11,12 @@ export const DEFAULT_BARS = [{}]
 export const DEFAULT_BAR_IDX = 0
 
 export interface Tab {
-	tab?: number
+	tab?: number | 'x'
 	finger?: number
 }
 
-export interface Bar {
-	[stringNumber: string]: Tab | undefined
+export type Bar = Record<string, Tab | undefined> & {
+	separator?: boolean
 }
 
 export interface Note {

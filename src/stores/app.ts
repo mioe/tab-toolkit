@@ -1,6 +1,6 @@
 import { entries as entriesIdb, set as setIdb, del as delIdb, update as updateIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import type { Note, Bar } from '~/consts'
+import type { Note, Bar, Tab } from '~/consts'
 import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
@@ -70,11 +70,27 @@ export const useAppStore = defineStore('app', () => {
 		commit()
 	}
 
-	function setTabInCurrentBarIdx(str: number, tab: any) {
+	function setSeparator() {
+		const currentBar = currentNote.value.bars[currentBarIdx.value]
+		if (currentBar) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
+			currentNote.value.bars[currentBarIdx.value] = {
+				separator: true,
+			}
+			commit()
+		}
+	}
+
+	function setTabInCurrentBarIdx(str: number, tab: Tab) {
 		const currentBar = currentNote.value.bars[currentBarIdx.value]
 		const tabWithColor = tab
 		if (currentFingerIdx.value > 0 && currentFingerIdx.value < FINGERS) {
 			tabWithColor['finger'] = currentFingerIdx.value
+		}
+
+		if (currentBar.separator) {
+			delete currentBar.separator
 		}
 
 		if (currentBar) {
@@ -264,6 +280,7 @@ export const useAppStore = defineStore('app', () => {
 		createNewNote,
 		encodedNote,
 		decodedNote,
+		setSeparator,
 	}
 })
 

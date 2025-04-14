@@ -32,38 +32,58 @@ const emit = defineEmits<{
 					'ring-2 ring-gray-200': currentBarIdx === idx,
 					'cursor-pointer': !readonly,
 				},
-				'flex flex-col-reverse p-[2px] rounded w-[25px] text-center',
+				'flex flex-col-reverse p-[2px] rounded w-[25px] text-center relative',
 			]"
 			@click="emit('click-bar', idx)"
 		>
-			<div
-				v-for="str in strings"
-				:key="str"
-				class="relative"
-			>
-				<div class="bg-gray-100 h-[4px] w-[calc(100%+16px)] left-0 top-[calc(50%-2px)] absolute -z-1" />
-				<p
-					:class="[
-						{
-							'bg-[--c] bg-opacity-30': bar[str]?.finger,
-						},
-						'text-center h-[22px] rounded-xl',
-					]"
-					:style="{
-						'--c': bar[str]?.finger === 1
-							? ColorFinger.finger1
-							: bar[str]?.finger === 2
-								? ColorFinger.finger2
-								: bar[str]?.finger === 3
-									? ColorFinger.finger3
-									: bar[str]?.finger === 4
-										? ColorFinger.finger4
-										: undefined,
-					}"
+			<template v-if="bar.separator">
+				<div
+					v-for="str in strings"
+					:key="str"
+					class="relative"
 				>
-					{{ bar[str]?.tab }}
-				</p>
-			</div>
+					<div class="bg-gray-100 h-[4px] w-[calc(100%+16px)] left-0 top-[calc(50%-2px)] absolute -z-1" />
+					<div class="h-[22px]">
+					</div>
+				</div>
+				<div class="bg-gray-300 w-[3px] translate-x-[-50%] left-[50%] absolute">
+					<div
+						v-for="str in strings"
+						:key="str"
+						class="h-[22px]"
+					></div>
+				</div>
+			</template>
+			<template v-else>
+				<div
+					v-for="str in strings"
+					:key="str"
+					class="relative"
+				>
+					<div class="bg-gray-100 h-[4px] w-[calc(100%+16px)] left-0 top-[calc(50%-2px)] absolute -z-1" />
+					<p
+						:class="[
+							{
+								'bg-[--c] bg-opacity-30': bar[str]?.finger,
+							},
+							'text-center h-[22px] rounded-xl',
+						]"
+						:style="{
+							'--c': bar[str]?.finger === 1
+								? ColorFinger.finger1
+								: bar[str]?.finger === 2
+									? ColorFinger.finger2
+									: bar[str]?.finger === 3
+										? ColorFinger.finger3
+										: bar[str]?.finger === 4
+											? ColorFinger.finger4
+											: undefined,
+						}"
+					>
+						{{ bar[str]?.tab }}
+					</p>
+				</div>
+			</template>
 		</div>
 
 		<slot />

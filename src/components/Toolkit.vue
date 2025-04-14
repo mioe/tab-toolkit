@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Hand from './Hand.vue'
 const appStore = useAppStore()
-const { nextBar, prevBar, historyRef, deleteBar, setTabInCurrentBarIdx, clearBar } = appStore
+const { nextBar, prevBar, historyRef, deleteBar, setTabInCurrentBarIdx, clearBar, setSeparator } = appStore
 
 const TABS = 25
 const strings = computed(() => appStore.currentNote.strings)
@@ -121,6 +121,15 @@ const strings = computed(() => appStore.currentNote.strings)
 							@click="historyRef.redo"
 						>
 							redo
+						</button>
+					</div>
+
+					<div class="lex gap-[8px]">
+						<button
+							class="btn"
+							@click="setSeparator"
+						>
+							; separator
 						</button>
 					</div>
 				</footer>
