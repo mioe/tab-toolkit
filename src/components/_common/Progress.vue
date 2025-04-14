@@ -1,15 +1,6 @@
-<script setup lang="ts">
-const { height = 27 } = defineProps<{
-	height?: number
-}>()
-</script>
-
 <template>
 	<div
-		class="border bg-white flex w-full relative overflow-hidden"
-		:style="{
-			height: `${height}px`,
-		}"
+		class="border rounded bg-white flex h-[16px] w-full left-0 top-[-24px] absolute overflow-hidden"
 	>
 		<div
 			class="progress bg-current h-full w-full left-0 top-0 absolute"

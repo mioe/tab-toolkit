@@ -1,8 +1,27 @@
 <script setup lang="ts">
+import Progress from '~/components/_common/Progress.vue'
 const appStore = useAppStore()
+const { removeIdbNote } = appStore
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
 const selectedNoteId = ref<string | null>(null)
+
+const btnRemoveRef = shallowRef()
+const { pressed: btnRemovePressed } = useMousePressed({ target: btnRemoveRef })
+async function onLongPressRemoveCallback() {
+	btnRemovePressed.value = false
+	if (!selectedNoteId.value) { return }
+	await removeIdbNote(selectedNoteId.value)
+	selectedNoteId.value = null
+}
+onLongPress(btnRemoveRef, onLongPressRemoveCallback, { delay: 1100 })
+
+const btnEditRef = shallowRef()
+const { pressed: btnEditPressed } = useMousePressed({ target: btnEditRef })
+function onLongPressEditCallback() {
+	btnEditPressed.value = false
+}
+onLongPress(btnEditRef, onLongPressEditCallback, { delay: 1100 })
 
 function open() {
 	selectedNoteId.value = null
@@ -66,10 +85,26 @@ defineExpose({
 							>
 								share
 							</button>
-							<button class="btn">
+							<button
+								ref="btnEditRef"
+								:disabled="!selectedNoteId"
+								class="btn relative"
+							>
+								<Progress
+									v-if="btnEditPressed"
+									class="text-green-300 border-green-700"
+								/>
 								edit
 							</button>
-							<button class="btn">
+							<button
+								ref="btnRemoveRef"
+								:disabled="!selectedNoteId"
+								class="btn relative"
+							>
+								<Progress
+									v-if="btnRemovePressed"
+									class="text-red-300 border-red-700"
+								/>
 								remove
 							</button>
 						</div>

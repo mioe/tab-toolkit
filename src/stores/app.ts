@@ -1,4 +1,4 @@
-import { entries, set as setIdb } from 'idb-keyval'
+import { entries as entriesIdb, set as setIdb, del as delIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import type { Note } from '~/consts'
 import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
@@ -114,7 +114,7 @@ export const useAppStore = defineStore('app', () => {
 	}
 
 	async function getIdbNotes() {
-		const result = await entries()
+		const result = await entriesIdb()
 		result.forEach(([key, val]) => {
 			const note = { id: key, ...val } as Note
 			db.value.push(note)
@@ -128,6 +128,12 @@ export const useAppStore = defineStore('app', () => {
 		await setIdb(currentNote.value.id, clone)
 		db.value.push(JSON.parse(JSON.stringify(currentNote.value)))
 		setDefaultNode()
+	}
+
+	async function removeIdbNote(noteId: string) {
+		const fIdx = db.value.findIndex((note) => note.id === noteId)
+		db.value.splice(fIdx, 1)
+		await delIdb(noteId)
 	}
 
 	return {
@@ -149,6 +155,7 @@ export const useAppStore = defineStore('app', () => {
 		setFinger,
 		saveIdbNote,
 		getIdbNotes,
+		removeIdbNote,
 	}
 })
 
