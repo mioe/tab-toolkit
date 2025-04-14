@@ -9,3 +9,20 @@ export const DEFAULT_NAME = 'Song'
 export const DEFAULT_STRING = 6
 export const DEFAULT_BARS = [{}]
 export const DEFAULT_BAR_IDX = 0
+
+export interface Tab {
+	tab?: number
+	finger?: number
+}
+
+export interface Bar {
+	[stringNumber: string]: Tab | undefined
+}
+
+export interface Note {
+	id: string
+	name: string
+	strings: number
+	savedAt: number | null
+	bars: Bar[]
+}

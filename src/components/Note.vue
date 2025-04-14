@@ -1,20 +1,19 @@
 <script setup lang="ts">
+import Dialog from './Dialog.vue'
 import { ColorFinger } from '~/consts'
 const appStore = useAppStore()
-const { setBar, setCurrentBarIdx, saveIdbNote, getIdbNotes } = appStore
+const { setBar, setCurrentBarIdx, saveIdbNote } = appStore
+const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 </script>
 
 <template>
 	<main class="p-[16px] flex flex-col gap-[16px]">
-		<div class="flex">
-			{{ appStore.db }}
-		</div>
-
-		<div>
-			<button @click="getIdbNotes">
-				ff
-			</button>
-		</div>
+		<button
+			class="btn px-[8px] rounded-xl flex-1"
+			@click="dialogRef?.open"
+		>
+			open dialog
+		</button>
 
 		<header class="flex gap-[8px]">
 			<input
@@ -85,5 +84,7 @@ const { setBar, setCurrentBarIdx, saveIdbNote, getIdbNotes } = appStore
 				</button>
 			</div>
 		</div>
+
+		<Dialog ref="dialogRef" />
 	</main>
 </template>

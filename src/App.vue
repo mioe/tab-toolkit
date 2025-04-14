@@ -5,14 +5,30 @@ import Toolkit from '~/components/Toolkit.vue'
 const appStore = useAppStore()
 const { getIdbNotes } = appStore
 
+const isWaiting = ref(true)
+
 onMounted(async() => {
 	await getIdbNotes()
+	isWaiting.value = false
+
+	// migrate from draft to v0
+	if (localStorage.getItem('tab-toolkit:settings')) {
+		localStorage.clear()
+	}
 })
 </script>
 
 <template>
 	<div class="flex flex-col min-h-[100svh] select-none relative">
-		<Note />
-		<Toolkit />
+		<div
+			v-if="isWaiting"
+			class="flex flex-1 items-center justify-center"
+		>
+			<p>waiting...</p>
+		</div>
+		<template v-else>
+			<Note />
+			<Toolkit />
+		</template>
 	</div>
 </template>

@@ -1,26 +1,10 @@
 import { entries, set as setIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import type { Note } from '~/consts'
 import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
 const FINGERS = 5
-
-interface Tab {
-	tab?: number
-	finger?: number
-}
-
-interface Bar {
-	[stringNumber: string]: Tab | undefined
-}
-
-interface Note {
-	id: string
-	name: string
-	strings: number
-	savedAt: number | null
-	bars: Bar[]
-}
 
 export const useAppStore = defineStore('app', () => {
 	const db = ref<Note[]>([])
@@ -138,9 +122,9 @@ export const useAppStore = defineStore('app', () => {
 	}
 
 	async function saveIdbNote() {
+		currentNote.value.savedAt = Date.now()
 		const clone = JSON.parse(JSON.stringify(currentNote.value))
 		delete clone.id
-		clone.savedAt = Date.now()
 		await setIdb(currentNote.value.id, clone)
 		db.value.push(JSON.parse(JSON.stringify(currentNote.value)))
 		setDefaultNode()
