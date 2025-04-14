@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Progress from '~/components/_common/Progress.vue'
 const appStore = useAppStore()
-const { removeIdbNote } = appStore
+const { removeIdbNote, selectIdbNote } = appStore
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
 const selectedNoteId = ref<string | null>(null)
@@ -18,8 +18,10 @@ onLongPress(btnRemoveRef, onLongPressRemoveCallback, { delay: 1100 })
 
 const btnEditRef = shallowRef()
 const { pressed: btnEditPressed } = useMousePressed({ target: btnEditRef })
-function onLongPressEditCallback() {
+async function onLongPressEditCallback() {
 	btnEditPressed.value = false
+	if (!selectedNoteId.value) { return }
+	await selectIdbNote(selectedNoteId.value)
 }
 onLongPress(btnEditRef, onLongPressEditCallback, { delay: 1100 })
 

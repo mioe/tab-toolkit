@@ -22,6 +22,7 @@ const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 				class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-xl w-full"
 			/>
 			<button
+				v-if="!appStore.currentNote.savedAt"
 				class="btn px-[8px] rounded-xl"
 				@click="saveIdbNote"
 			>
