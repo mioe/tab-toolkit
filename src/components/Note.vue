@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Dialog from './Dialog.vue'
 import Bars from '~/components/_common/Bars.vue'
-import { ColorFinger } from '~/consts'
 const appStore = useAppStore()
 const { setBar, setCurrentBarIdx, saveIdbNote, updateIdbNote } = appStore
 const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
