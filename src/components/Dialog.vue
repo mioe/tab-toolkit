@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import Progress from '~/components/_common/Progress.vue'
 import Badge from '~/components/_common/Badge.vue'
+import About from './About.vue'
+
+const aboutRef = shallowRef<InstanceType<typeof About> | undefined>()
+
 const appStore = useAppStore()
 const { removeIdbNote, selectIdbNote, createNewNote, encodedNote, importToIdbNote } = appStore
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
@@ -76,12 +80,21 @@ defineExpose({
 			class="m-auto border border-gray-200 rounded-2xl h-[100svh] w-full select-none shadow-2xl"
 		>
 			<div class="p-[16px] flex flex-col gap-[24px]">
-				<button
-					class="btn px-[8px] rounded-xl flex-1"
-					@click="close"
-				>
-					close dialog
-				</button>
+				<div class="flex flex-1">
+					<button
+						class="btn px-[8px] rounded-l-xl rounded-r-none flex-1"
+						@click="close"
+					>
+						close dialog
+					</button>
+
+					<button
+						class="btn px-[16px] rounded-l-none rounded-r-xl border-l-none"
+						@click="aboutRef?.open"
+					>
+						open about
+					</button>
+				</div>
 
 				<div class="bg-white flex flex-col">
 					<h2 class="pb-[6px]">
@@ -241,6 +254,8 @@ defineExpose({
 
 				<Badge />
 			</div>
+
+			<About ref="aboutRef" />
 		</dialog>
 	</Teleport>
 </template>
