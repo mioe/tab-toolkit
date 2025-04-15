@@ -36,7 +36,7 @@ onMounted(() => {
 			>
 				saved at: {{ new Date(appStore.sharedNote.savedAt).toLocaleString() }}
 			</p>
-			<p class="text-[8px] text-sky">
+			<p class="text-[8px]">
 				{{ appStore.sharedNote.id }}
 			</p>
 		</header>
@@ -59,40 +59,48 @@ onMounted(() => {
 					/>
 					back
 				</button>
-				<UseClipboard
-					v-slot="{ copy, copied }"
-					:source="url"
-				>
-					<button
-						class="btn relative"
-						@click="copy()"
+
+				<button class="btn">
+					show hand
+				</button>
+
+
+				<div class="flex gap-[8px]">
+					<UseClipboard
+						v-slot="{ copy, copied }"
+						:source="url"
 					>
-						<span
-							v-if="copied"
-							class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
+						<button
+							class="btn relative"
+							@click="copy()"
 						>
-							DONE!
-						</span>
-						copy url
-					</button>
-				</UseClipboard>
-				<UseClipboard
-					v-slot="{ copy, copied }"
-					:source="`${appStore.params.n}`"
-				>
-					<button
-						class="btn relative"
-						@click="copy()"
+							<span
+								v-if="copied"
+								class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
+							>
+								DONE!
+							</span>
+							copy url
+						</button>
+					</UseClipboard>
+					<UseClipboard
+						v-slot="{ copy, copied }"
+						:source="`${appStore.params.n}`"
 					>
-						<span
-							v-if="copied"
-							class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
+						<button
+							class="btn relative"
+							@click="copy()"
 						>
-							DONE!
-						</span>
-						copy base64
-					</button>
-				</UseClipboard>
+							<span
+								v-if="copied"
+								class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
+							>
+								DONE!
+							</span>
+							copy base64
+						</button>
+					</UseClipboard>
+				</div>
 			</div>
 		</Badge>
 	</main>

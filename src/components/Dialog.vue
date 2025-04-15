@@ -83,6 +83,22 @@ defineExpose({
 					close dialog
 				</button>
 
+				<div class="bg-white flex flex-col">
+					<h2 class="pb-[6px]">
+						your info (optional):
+					</h2>
+					<input
+						type="text"
+						placeholder="author name"
+						class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-t-xl w-full"
+					/>
+					<input
+						type="text"
+						placeholder="author url"
+						class="text-[18px] px-[8px] py-[4px] border-b border-l border-r border-gray-200 rounded-b-xl w-full"
+					/>
+				</div>
+
 				<header class="flex top-[16px] sticky">
 					<button
 						class="p-[8px] text-center border border-gray-200 rounded-xl border-dashed bg-white flex flex-1 flex-col gap-[2px] cursor-pointer items-center justify-center"
@@ -94,7 +110,7 @@ defineExpose({
 						<p>
 							{{ appStore.currentNote.name }}
 						</p>
-						<p class="text-[8px] text-sky">
+						<p class="text-[8px]">
 							{{ appStore.currentNote.id }}
 						</p>
 					</button>
@@ -182,7 +198,7 @@ defineExpose({
 								</p>
 							</header>
 							<footer>
-								<p class="text-[8px] text-sky">
+								<p class="text-[8px]">
 									{{ note.id }}
 								</p>
 							</footer>
@@ -216,7 +232,7 @@ defineExpose({
 								v-if="btnImportPressed"
 								class="text-green-300 border-green-700"
 							/>
-							go
+							submit
 						</button>
 					</div>
 				</div>

@@ -1,12 +1,16 @@
+<script setup lang="ts">
+import packageJson from '../../../package.json'
+</script>
+
 <template>
-	<footer class="mt-auto flex flex-col items-center bottom-[16px] justify-center sticky">
+	<footer class="mx-auto mt-auto flex flex-col max-w-[340px] items-center bottom-[16px] justify-center sticky">
 		<slot />
 		<p class="text-[10px] px-[8px] py-[1px] rounded-full bg-white shadow">
-			tab-toolkit_v0
+			tab-toolkit_v{{ packageJson.version }}
 			<a
 				href="https://github.com/mioe/tab-toolkit"
 				target="_blank"
-				class="text-green-600 underline underline-dashed"
+				class="link"
 			>
 				by mioe
 			</a>

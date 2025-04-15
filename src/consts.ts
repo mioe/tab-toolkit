@@ -26,3 +26,8 @@ export interface Note {
 	savedAt: number | null
 	bars: Bar[]
 }
+
+export interface SharedNote extends Note {
+	authorName?: string | null
+	authorUrl?: string | null
+}

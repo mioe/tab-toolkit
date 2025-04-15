@@ -11,6 +11,7 @@ export default defineConfig({
 	shortcuts: [
 		['btn', `${BTN_BASE} bg-white border-gray-200`],
 		['btn-active', `${BTN_BASE} bg-blue-700 text-white`],
+		['link', 'text-blue underline underline-dashed'],
 	],
 	rules: [
 		['scrolling-touch', { '-webkit-overflow-scrolling': 'touch' }],

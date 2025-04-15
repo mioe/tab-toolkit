@@ -20,6 +20,7 @@ const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 				v-model="appStore.currentNote.name"
 				type="text"
 				class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-xl w-full"
+				placeholder="note name"
 			/>
 			<button
 				v-if="appStore.currentNote.savedAt"
