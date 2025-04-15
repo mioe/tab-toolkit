@@ -78,6 +78,9 @@ export const useAppStore = defineStore('app', () => {
 			currentNote.value.bars[currentBarIdx.value] = {
 				separator: true,
 			}
+			if (soloMode.value) {
+				nextBar()
+			}
 			commit()
 		}
 	}
