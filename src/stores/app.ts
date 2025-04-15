@@ -31,9 +31,18 @@ export const useAppStore = defineStore('app', () => {
 	const currentFingerIdx = ref(0)
 	const sharedNote = ref<SharedNote | null>(null)
 
-	const author =useStorage(`${APP_PREFIX}:author`, {
+	const author = useStorage(`${APP_PREFIX}:author`, {
 		name: '',
 		url: '',
+	})
+
+	const canUpdated = computed(() => {
+		if (currentNote.value.savedAt) {
+			const cloneStrCurrentNote = JSON.stringify(currentNote.value)
+			const cloneStrDbFNote = JSON.stringify(db.value.find((note) => note.id === currentNote.value.id))
+			return cloneStrCurrentNote !== cloneStrDbFNote
+		}
+		return false
 	})
 
 	const historyRef = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
@@ -213,10 +222,10 @@ export const useAppStore = defineStore('app', () => {
 		}))
 		const fNote = db.value.find((note) => note.id === currentNote.value.id)
 		if (fNote) {
-			fNote.name = currentNote.value.name
-			fNote.strings = currentNote.value.strings
-			fNote.bars = currentNote.value.bars
-			fNote.savedAt = Date.now()
+			fNote.name = clone.name
+			fNote.strings = clone.strings
+			fNote.bars = clone.bars
+			fNote.savedAt = clone.savedAt
 		}
 	}
 
@@ -313,6 +322,7 @@ export const useAppStore = defineStore('app', () => {
 		currentFingerIdx,
 		sharedNote,
 		author,
+		canUpdated,
 
 		nextBar,
 		prevBar,

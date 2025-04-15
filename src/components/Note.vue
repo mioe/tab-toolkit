@@ -25,6 +25,7 @@ const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 			<button
 				v-if="appStore.currentNote.savedAt"
 				class="btn px-[8px] rounded-xl"
+				:disabled="!appStore.canUpdated"
 				@click="updateIdbNote"
 			>
 				update
