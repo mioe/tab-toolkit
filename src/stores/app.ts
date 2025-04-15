@@ -230,6 +230,32 @@ export const useAppStore = defineStore('app', () => {
 		}
 	}
 
+	async function importToIdbNote(base64: string) {
+		await savedDraftNote()
+
+		try {
+			if (base64) {
+				const note = JSON.parse(atob(decodeURIComponent(base64)))
+				if (note && note.bars && note.name && note.strings) {
+					const newNoteId = crypto.randomUUID()
+					const newNote = {
+						name: `[via import] ${note.name}`,
+						strings: note.strings,
+						savedAt: Date.now(),
+						bars: note.bars,
+					}
+					await setIdb(newNoteId, newNote)
+					db.value.push({
+						id: newNoteId,
+						...newNote,
+					})
+				}
+			}
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	async function encodedNote(noteId: string) {
 		await savedDraftNote()
 
@@ -281,6 +307,7 @@ export const useAppStore = defineStore('app', () => {
 		encodedNote,
 		decodedNote,
 		setSeparator,
+		importToIdbNote,
 	}
 })
 

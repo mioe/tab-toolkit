@@ -2,7 +2,7 @@
 import Progress from '~/components/_common/Progress.vue'
 import Badge from '~/components/_common/Badge.vue'
 const appStore = useAppStore()
-const { removeIdbNote, selectIdbNote, createNewNote, encodedNote } = appStore
+const { removeIdbNote, selectIdbNote, createNewNote, encodedNote, importToIdbNote } = appStore
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
 const selectedNoteId = ref<string | null>(null)
@@ -43,6 +43,15 @@ async function onLongPressShareCallback() {
 	await encodedNote(selectedNoteId.value)
 }
 onLongPress(btnShareRef, onLongPressShareCallback, { delay: 1100 })
+
+const inputBase64 = ref('')
+const btnImportRef = shallowRef()
+const { pressed: btnImportPressed } = useMousePressed({ target: btnImportRef })
+async function onLongPressImportCallback() {
+	btnImportPressed.value = false
+	await importToIdbNote(inputBase64.value)
+}
+onLongPress(btnImportRef, onLongPressImportCallback, { delay: 1100 })
 
 function open() {
 	selectedNoteId.value = null
@@ -107,10 +116,8 @@ defineExpose({
 					v-if="appStore.db.length"
 					class="flex flex-col gap-[8px]"
 				>
-					<div class="pb-[8px] flex gap-[16px] items-center justify-between">
-						<h2 class="text-center">
-							saved:
-						</h2>
+					<div class="flex gap-[16px] items-center justify-between">
+						<h2>saved:</h2>
 						<div class="flex flex-wrap gap-[8px]">
 							<button
 								ref="btnShareRef"
@@ -190,6 +197,28 @@ defineExpose({
 							/>
 						</div>
 					</article>
+				</div>
+
+				<div class="flex flex-col gap-[6px]">
+					<h2>import note:</h2>
+					<div class="flex">
+						<input
+							v-model="inputBase64"
+							type="text"
+							class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-l-xl w-full"
+							placeholder="paste base64..."
+						/>
+						<button
+							ref="btnImportRef"
+							class="btn px-[16px] rounded-l-none rounded-r-xl border-l-none shrink-0 relative"
+						>
+							<Progress
+								v-if="btnImportPressed"
+								class="text-green-300 border-green-700"
+							/>
+							go
+						</button>
+					</div>
 				</div>
 
 				<Badge />
