@@ -1,6 +1,6 @@
 import { entries as entriesIdb, set as setIdb, del as delIdb, update as updateIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import type { Note, Bar, Tab } from '~/consts'
+import type { Note, Bar, Tab, SharedNote } from '~/consts'
 import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
@@ -29,7 +29,12 @@ export const useAppStore = defineStore('app', () => {
 	})
 	const currentBarIdx = ref(DEFAULT_BAR_IDX)
 	const currentFingerIdx = ref(0)
-	const sharedNote = ref<Note | null>(null)
+	const sharedNote = ref<SharedNote | null>(null)
+
+	const author =useStorage(`${APP_PREFIX}:author`, {
+		name: '',
+		url: '',
+	})
 
 	const historyRef = useManualRefHistory(currentNote, { clone: true, capacity: 30 })
 	const { commit } = historyRef
@@ -259,13 +264,29 @@ export const useAppStore = defineStore('app', () => {
 		}
 	}
 
+	function encodeUtf8ToBase64(str: string): string {
+		const utf8Bytes = new TextEncoder().encode(str)
+		const binary = Array.from(utf8Bytes)
+			.map((b) => String.fromCharCode(b))
+			.join('')
+		return btoa(binary)
+	}
+
+	function decodeBase64ToUtf8(base64: string): string {
+		const binary = atob(base64)
+		const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0))
+		return new TextDecoder().decode(bytes)
+	}
+
 	async function encodedNote(noteId: string) {
 		await savedDraftNote()
 
 		const fNote = db.value.find((note) => note.id === noteId)
 		if (fNote) {
-			const cloneStrFNote = JSON.stringify(fNote)
-			const encoded = btoa(cloneStrFNote)
+			const cloneFNote = JSON.parse(JSON.stringify(fNote)) as SharedNote
+			if (author.value.name) { cloneFNote.authorName = author.value.name }
+			if (author.value.url) { cloneFNote.authorUrl = author.value.url }
+			const encoded = encodeUtf8ToBase64(JSON.stringify(cloneFNote))
 			params.n = encoded
 		}
 	}
@@ -273,7 +294,7 @@ export const useAppStore = defineStore('app', () => {
 	async function decodedNote() {
 		try {
 			if (params?.n) {
-				const strNote = atob(decodeURIComponent(params.n as string))
+				const strNote = decodeBase64ToUtf8(decodeURIComponent(params.n as string))
 				sharedNote.value = JSON.parse(strNote)
 			}
 		} catch (err) {
@@ -291,6 +312,7 @@ export const useAppStore = defineStore('app', () => {
 		historyRef,
 		currentFingerIdx,
 		sharedNote,
+		author,
 
 		nextBar,
 		prevBar,

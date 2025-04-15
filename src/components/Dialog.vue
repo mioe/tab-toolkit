@@ -88,12 +88,14 @@ defineExpose({
 						your info (optional):
 					</h2>
 					<input
+						v-model="appStore.author.name"
 						type="text"
 						placeholder="author name"
 						class="text-[18px] px-[8px] py-[4px] border border-gray-200 rounded-t-xl w-full"
 					/>
 					<input
-						type="text"
+						v-model="appStore.author.url"
+						type="email"
 						placeholder="author url"
 						class="text-[18px] px-[8px] py-[4px] border-b border-l border-r border-gray-200 rounded-b-xl w-full"
 					/>

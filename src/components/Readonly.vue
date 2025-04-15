@@ -30,7 +30,23 @@ onMounted(() => {
 		class="p-[16px] flex flex-1 flex-col gap-[16px]"
 	>
 		<header class="text-center">
-			<h1>{{ appStore.sharedNote.name }}</h1>
+			<h1>
+				{{ appStore.sharedNote.name }}
+				<template v-if="appStore.sharedNote.authorName">
+					<template v-if="appStore.sharedNote.authorUrl">
+						<a
+							:href="appStore.sharedNote.authorUrl"
+							target="_blank"
+							class="link"
+						>
+							by {{ appStore.sharedNote.authorName }}
+						</a>
+					</template>
+					<template v-else>
+						by {{ appStore.sharedNote.authorName }}
+					</template>
+				</template>
+			</h1>
 			<p
 				v-if="appStore.sharedNote.savedAt"
 				class="text-[8px]"
