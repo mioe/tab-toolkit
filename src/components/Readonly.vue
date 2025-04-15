@@ -2,6 +2,7 @@
 import Badge from '~/components/_common/Badge.vue'
 import Bars from '~/components/_common/Bars.vue'
 import Progress from '~/components/_common/Progress.vue'
+import HandIcon from '~/components/_common/HandIcon.vue'
 import { UseClipboard } from '@vueuse/components'
 
 const appStore = useAppStore()
@@ -48,7 +49,7 @@ onMounted(() => {
 		/>
 
 		<Badge>
-			<div class="mb-[16px] px-[16px] py-[8px] border border-gray-200 rounded-xl flex flex-1 flex-wrap gap-[8px]">
+			<div class="mb-[16px] px-[16px] py-[8px] border border-gray-200 rounded-xl flex flex-1 flex-wrap gap-[8px] relative">
 				<button
 					ref="btnBackRef"
 					class="btn relative"
@@ -60,46 +61,43 @@ onMounted(() => {
 					back
 				</button>
 
-				<button class="btn">
-					show hand
-				</button>
-
-
-				<div class="flex gap-[8px]">
-					<UseClipboard
-						v-slot="{ copy, copied }"
-						:source="url"
+				<UseClipboard
+					v-slot="{ copy, copied }"
+					:source="url"
+				>
+					<button
+						class="btn relative"
+						@click="copy()"
 					>
-						<button
-							class="btn relative"
-							@click="copy()"
+						<span
+							v-if="copied"
+							class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
 						>
-							<span
-								v-if="copied"
-								class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
-							>
-								DONE!
-							</span>
-							copy url
-						</button>
-					</UseClipboard>
-					<UseClipboard
-						v-slot="{ copy, copied }"
-						:source="`${appStore.params.n}`"
+							DONE!
+						</span>
+						copy url
+					</button>
+				</UseClipboard>
+				<UseClipboard
+					v-slot="{ copy, copied }"
+					:source="`${appStore.params.n}`"
+				>
+					<button
+						class="btn relative"
+						@click="copy()"
 					>
-						<button
-							class="btn relative"
-							@click="copy()"
+						<span
+							v-if="copied"
+							class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
 						>
-							<span
-								v-if="copied"
-								class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
-							>
-								DONE!
-							</span>
-							copy base64
-						</button>
-					</UseClipboard>
+							DONE!
+						</span>
+						copy base64
+					</button>
+				</UseClipboard>
+
+				<div class="trans text-gray-300 h-[60px] w-[60px] right-[-24px] top-[20px] absolute">
+					<HandIcon readonly />
 				</div>
 			</div>
 		</Badge>
