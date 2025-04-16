@@ -65,7 +65,7 @@ onMounted(() => {
 		/>
 
 		<Badge>
-			<div class="mb-[16px] px-[16px] py-[8px] border border-gray-200 rounded-xl flex flex-1 flex-wrap gap-[8px] relative">
+			<div class="mb-[16px] px-[16px] py-[8px] border border-gray-200 rounded-xl bg-white flex flex-1 flex-wrap gap-[8px] relative">
 				<button
 					ref="btnBackRef"
 					class="btn relative"
