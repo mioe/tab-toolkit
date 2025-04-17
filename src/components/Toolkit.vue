@@ -8,7 +8,14 @@ const strings = computed(() => appStore.currentNote.strings)
 </script>
 
 <template>
-	<aside class="mt-auto p-[16px] border-t border-gray-200 bg-white bottom-0 left-0 sticky z-1">
+	<aside
+		:class="[
+			{
+				'shrink-0 w-[400px] border-l rounded-tl-xl': appStore.orientation !== 'portrait-primary',
+			},
+			'mt-auto pt-[16px] pr-[16px] pl-[16px] pb-safe border-t border-gray-200 bg-white bottom-0 left-0 sticky z-1',
+		]"
+	>
 		<details>
 			<summary class="px-[8px] py-[4px] border border-gray-200 rounded-xl bg-white cursor-pointer top-[-24px] absolute z-1">
 				Toolkit
