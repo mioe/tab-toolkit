@@ -1,10 +1,10 @@
 {
 	"name": "tab-toolkit",
 	"private": true,
-	"version": "1",
+	"version": "2",
 	"type": "module",
 	"engines": {
-		"node": ">=20"
+		"node": ">=22"
 	},
 	"scripts": {
 		"dev": "vite --host",

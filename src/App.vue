@@ -20,7 +20,18 @@ onMounted(async() => {
 </script>
 
 <template>
-	<div class="flex flex-col min-h-[100svh] select-none relative">
+	<div
+		:class="[
+			{
+				'flex-col': appStore.orientation === 'portrait-primary',
+			},
+			'flex min-h-[100svh] select-none relative',
+		]"
+	>
+		<div class="text-white p-[16px] bg-blue translate-[-50%] left-[50%] top-[50%] fixed z-1">
+			{{ appStore.orientation }}
+		</div>
+
 		<div
 			v-if="isWaiting"
 			class="flex flex-1 items-center justify-center"

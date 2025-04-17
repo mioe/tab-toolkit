@@ -14,6 +14,8 @@ const DEFAULT_NOTE_STRING_WITHOUT_ID = JSON.stringify({
 })
 
 export const useAppStore = defineStore('app', () => {
+	const { orientation } = useScreenOrientation()
+
 	const params = useUrlSearchParams('history')
 
 	const db = ref<Note[]>([])
@@ -252,7 +254,7 @@ export const useAppStore = defineStore('app', () => {
 
 		try {
 			if (base64) {
-				const note = JSON.parse(atob(decodeURIComponent(base64)))
+				const note = JSON.parse(decodeBase64ToUtf8(decodeURIComponent(base64)))
 				if (note && note.bars && note.name && note.strings) {
 					const newNoteId = crypto.randomUUID()
 					const newNote = {
@@ -323,6 +325,7 @@ export const useAppStore = defineStore('app', () => {
 		sharedNote,
 		author,
 		canUpdated,
+		orientation,
 
 		nextBar,
 		prevBar,
