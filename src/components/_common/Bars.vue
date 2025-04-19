@@ -13,6 +13,9 @@ const emit = defineEmits<{
 	(e: 'change', idx: number): void
 }>()
 
+const currentBarPositionX = ref(0)
+const currentBarPositionY = ref(0)
+
 const btnBarsRef = shallowRef()
 async function onLongPressBarsCallback() {
 	if (readonly) { return }
@@ -30,6 +33,10 @@ function handleClick(e: MouseEvent | TouchEvent) {
 
 	const idx = Number(barEl.dataset.barIdx)
 	if (!isNaN(idx)) {
+		const rect = barEl.getBoundingClientRect()
+		currentBarPositionX.value = rect.left + window.scrollX
+		currentBarPositionY.value = rect.top + window.scrollY
+
 		emit('change', idx)
 	}
 }
@@ -58,6 +65,10 @@ function handleDrag(e: MouseEvent | TouchEvent) {
 
 	const idx = Number(barEl.dataset.barIdx)
 	if (!isNaN(idx)) {
+		const rect = barEl.getBoundingClientRect()
+		currentBarPositionX.value = rect.left + window.scrollX
+		currentBarPositionY.value = rect.top + window.scrollY
+
 		emit('change', idx)
 	}
 }
@@ -103,6 +114,15 @@ onBeforeUnmount(() => {
 		</div>
 
 		<div
+			class="bg-red h-[10px] w-[10px] left-[var(--x)] top-[var(--y)] fixed z-9"
+			:style="{
+				'--y': currentBarPositionY + 'px',
+				'--x': currentBarPositionX + 'px',
+			}"
+		>
+		</div>
+
+		<div
 			v-for="(bar, idx) in bars"
 			:key="`bar-${idx}`"
 			:data-bar-idx="idx"
@@ -114,6 +134,13 @@ onBeforeUnmount(() => {
 				'flex flex-col-reverse p-[2px] rounded w-[32px] text-center relative',
 			]"
 		>
+			<div
+				v-if="2 === idx"
+				class="text-[8px] leading-[8px] w-[100px] top-[-10px] absolute line-clamp-1"
+			>
+				Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quibusdam sunt quos laboriosam molestiae optio, sed dolor repellat tempore quas eligendi, laborum quam impedit quo cum amet consectetur repudiandae libero. Maxime!
+			</div>
+
 			<template v-if="bar.separator">
 				<div
 					v-for="str in strings"
