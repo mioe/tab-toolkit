@@ -28,9 +28,9 @@ onMounted(async() => {
 			'flex min-h-[100svh] select-none relative',
 		]"
 	>
-		<!-- <div class="text-white p-[16px] bg-blue translate-[-50%] left-[50%] top-[50%] fixed z-9">
+		<div class="text-white p-[16px] bg-blue translate-[-50%] left-[50%] top-[50%] fixed z-9">
 			{{ appStore.orientation }}
-		</div> -->
+		</div>
 
 		<div
 			v-if="isWaiting"

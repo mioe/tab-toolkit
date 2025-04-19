@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import packageJson from '../../package.json'
 import Hand from './Hand.vue'
 const appStore = useAppStore()
 const { nextBar, prevBar, historyRef, deleteBar, setTabInCurrentBarIdx, clearBar, setSeparator } = appStore
@@ -21,7 +22,7 @@ const strings = computed(() => appStore.currentNote.strings)
 	>
 		<details>
 			<summary class="px-[8px] py-[4px] border border-gray-200 rounded-xl bg-white cursor-pointer top-[-24px] absolute z-1">
-				Toolkit
+				Toolkit v{{ packageJson.version }}
 			</summary>
 			<div
 				:class="[

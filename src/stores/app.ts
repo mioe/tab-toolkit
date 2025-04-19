@@ -14,7 +14,13 @@ const DEFAULT_NOTE_STRING_WITHOUT_ID = JSON.stringify({
 })
 
 export const useAppStore = defineStore('app', () => {
-	const { orientation } = useScreenOrientation()
+	const isDesktop = useMediaQuery('(min-width: 1024px)')
+	const { orientation: useOrientation } = useScreenOrientation()
+	const orientation = computed<OrientationType>(() => {
+		if (isDesktop) { return 'portrait-primary' }
+		else if (useOrientation.value) { return useOrientation.value }
+		return 'portrait-primary'
+	})
 
 	const params = useUrlSearchParams('history')
 
