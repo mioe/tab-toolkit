@@ -1,10 +1,20 @@
 <script setup lang="ts">
+import Progress from '~/components/_common/Progress.vue'
 import packageJson from '../../package.json'
+const appStore = useAppStore()
 
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
 function open() { dialogRef.value?.showModal() }
 function close() { dialogRef.value?.close() }
+
+const btnLogoRef = shallowRef()
+const { pressed: btnLogoPressed } = useMousePressed({ target: btnLogoRef })
+async function onLongPressLogoCallback() {
+	btnLogoPressed.value = false
+	appStore.debugSettings.isOpen = !appStore.debugSettings.isOpen
+}
+onLongPress(btnLogoRef, onLongPressLogoCallback, { delay: 1100 })
 
 defineExpose({
 	open,
@@ -25,11 +35,21 @@ defineExpose({
 				close about
 			</button>
 
-			<img
-				src="/tab-toolkit.webp"
-				alt="app-icon"
-				class="w-[200px]"
-			/>
+			<button
+				ref="btnLogoRef"
+				class="relative"
+			>
+				<Progress
+					v-if="btnLogoPressed"
+					class="text-blue-300 border-blue-700 rounded-xl"
+				/>
+
+				<img
+					src="/tab-toolkit.webp"
+					alt="app-icon"
+					class="w-[200px]"
+				/>
+			</button>
 
 			<div class="text-center">
 				<h2>tab-toolkit</h2>

@@ -23,6 +23,10 @@ export const useAppStore = defineStore('app', () => {
 	})
 
 	const params = useUrlSearchParams('history')
+	const debugSettings = useStorage(`${APP_PREFIX}:debug-settings`, {
+		isOpen: false,
+		showOrientation: false,
+	})
 
 	const db = ref<Note[]>([])
 
@@ -333,6 +337,7 @@ export const useAppStore = defineStore('app', () => {
 		canUpdated,
 		orientation,
 		isDesktop,
+		debugSettings,
 
 		nextBar,
 		prevBar,

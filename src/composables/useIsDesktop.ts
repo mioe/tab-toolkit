@@ -8,7 +8,6 @@ export function useIsDesktop() {
 		const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
 		const hasMouse = matchMedia('(pointer: fine)').matches
 
-		// Условие: не моб. юзер-агент + наличие мыши + отсутствие тача = десктоп
 		isDesktop.value = !isMobileUA && hasMouse && !hasTouch
 	})
 

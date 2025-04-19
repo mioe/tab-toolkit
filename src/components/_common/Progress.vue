@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="border rounded bg-white flex h-[16px] w-full left-0 top-[-24px] absolute overflow-hidden"
+		class="progress-body border rounded bg-white flex h-[16px] w-full left-0 top-[-24px] absolute overflow-hidden"
 	>
 		<div
 			class="progress bg-current h-full w-full left-0 top-0 absolute"
