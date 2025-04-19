@@ -1,11 +1,18 @@
 # Changelog
 
+## [v2] - Upgrade
+## Added
+- Adaptive for orientation property
+- Update styling
+- Add confetti
+## Fixed
+- Visual bugs
+
 ## [v1] - Bugfix
 
 ### Added
 - Hand in readonly page
 - Author name and url
-
 ### Fixed
 - Update logic
 - Note sharing
