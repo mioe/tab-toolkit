@@ -2,6 +2,7 @@
 import Progress from '~/components/_common/Progress.vue'
 import Badge from '~/components/_common/Badge.vue'
 import About from './About.vue'
+import ConfettiAlert from '~/components/_common/ConfettiAlert.vue'
 
 const aboutRef = shallowRef<InstanceType<typeof About> | undefined>()
 
@@ -49,11 +50,18 @@ async function onLongPressShareCallback() {
 onLongPress(btnShareRef, onLongPressShareCallback, { delay: 1100 })
 
 const inputBase64 = ref('')
+const outputBase64Success = ref(false)
 const btnImportRef = shallowRef()
 const { pressed: btnImportPressed } = useMousePressed({ target: btnImportRef })
 async function onLongPressImportCallback() {
 	btnImportPressed.value = false
+	if (!inputBase64.value.length) { return }
 	await importToIdbNote(inputBase64.value)
+	inputBase64.value = ''
+	outputBase64Success.value = true
+	useTimeoutFn(() => {
+		outputBase64Success.value = false
+	}, 2000)
 }
 onLongPress(btnImportRef, onLongPressImportCallback, { delay: 1100 })
 
@@ -242,6 +250,7 @@ defineExpose({
 						<button
 							ref="btnImportRef"
 							class="btn px-[16px] rounded-l-none rounded-r-xl border-l-none shrink-0 relative"
+							:disabled="!inputBase64.length"
 						>
 							<Progress
 								v-if="btnImportPressed"
@@ -258,6 +267,11 @@ defineExpose({
 			<About
 				ref="aboutRef"
 				@close="close"
+			/>
+
+			<ConfettiAlert
+				v-if="outputBase64Success"
+				msg="base64 was successfully extracted!"
 			/>
 		</dialog>
 	</Teleport>
