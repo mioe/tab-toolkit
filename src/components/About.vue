@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import Progress from '~/components/_common/Progress.vue'
 import packageJson from '../../package.json'
+const emit = defineEmits<{
+	(e: 'close'): void
+}>()
+
+const buildDate = import.meta.env.VITE_BUILD_DATE
 const appStore = useAppStore()
 const { resetDebugSettings } = appStore
 
@@ -18,6 +23,7 @@ async function onLongPressLogoCallback() {
 	} else {
 		appStore.debugSettings.isOpenPanel = true
 	}
+	emit('close')
 	close()
 }
 onLongPress(btnLogoRef, onLongPressLogoCallback, { delay: 1100 })
@@ -64,7 +70,7 @@ defineExpose({
 			<div class="text-center">
 				<h2>tab-toolkit</h2>
 				<p class="text-[8px]">
-					v{{ packageJson.version }}
+					v{{ packageJson.version }} - upd: {{ useTimeAgo(new Date(buildDate)) }}
 				</p>
 				<a
 					href="https://github.com/mioe/tab-toolkit"

@@ -255,7 +255,10 @@ defineExpose({
 				<Badge />
 			</div>
 
-			<About ref="aboutRef" />
+			<About
+				ref="aboutRef"
+				@close="close"
+			/>
 		</dialog>
 	</Teleport>
 </template>
