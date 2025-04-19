@@ -27,7 +27,14 @@ onMounted(() => {
 <template>
 	<main
 		v-if="appStore.sharedNote"
-		class="p-[16px] flex flex-1 flex-col gap-[16px]"
+		:class="[
+			{
+				'pl-safe pr-[16px]': appStore.orientation === 'landscape-primary',
+				'pr-safe pl-[16px]': appStore.orientation === 'landscape-secondary',
+				'px-[16px]': (appStore.orientation === 'portrait-primary' || appStore.orientation === 'portrait-secondary'),
+			},
+			'pt-[16px] pb-safe flex flex-1 flex-col gap-[16px]',
+		]"
 	>
 		<header class="text-center">
 			<h1>
