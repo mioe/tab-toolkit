@@ -5,7 +5,16 @@ const { setFinger, nextFinger } = appStore
 </script>
 
 <template>
-	<button class="text-gray-200 h-[120px] w-[120px] right-[24px] top-[-90px] absolute">
+	<button
+		:class="[
+			{
+
+			},
+			(appStore.orientation === 'portrait-primary' || appStore.orientation === 'portrait-secondary')
+				? 'right-[24px] top-[-90px] h-[120px]' : '-bottom-[calc(20px+var(--safe-area-bottom)-4px)] left-[50%] translate-x-[-50%] h-[90px]',
+			'text-gray-200 w-[120px] absolute flex',
+		]"
+	>
 		<div class="relative">
 			<div
 				:class="[
@@ -32,10 +41,18 @@ const { setFinger, nextFinger } = appStore
 				]"
 			/>
 
-			<HandIcon
-				@next-finger="nextFinger"
-				@set-finger="setFinger($event)"
-			/>
+			<div
+				:class="[
+					(appStore.orientation === 'portrait-primary' || appStore.orientation === 'portrait-secondary')
+						? 'h-[120px]' : 'my-auto h-[90px] overflow-hidden',
+					'w-[120px]  relative'
+				]"
+			>
+				<HandIcon
+					@next-finger="nextFinger"
+					@set-finger="setFinger($event)"
+				/>
+			</div>
 		</div>
 	</button>
 </template>

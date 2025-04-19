@@ -15,7 +15,7 @@
 		"lint:config": "eslint --inspect-config"
 	},
 	"dependencies": {
-		"@unocss/reset": "^66.1.0-beta.10",
+		"@unocss/reset": "^66.1.0-beta.12",
 		"@vueuse/components": "^13.1.0",
 		"@vueuse/core": "^13.1.0",
 		"idb-keyval": "^6.2.1",
@@ -25,17 +25,17 @@
 	"devDependencies": {
 		"@iconify/utils": "^2.3.0",
 		"@stylistic/eslint-plugin": "^4.2.0",
-		"@types/node": "^22.14.0",
-		"@unocss/eslint-config": "^66.1.0-beta.10",
+		"@types/node": "^22.14.1",
+		"@unocss/eslint-config": "^66.1.0-beta.12",
 		"@vitejs/plugin-vue": "^5.2.3",
 		"@vue/tsconfig": "^0.7.0",
-		"eslint": "^9.24.0",
+		"eslint": "^9.25.0",
 		"eslint-plugin-vue": "^10.0.0",
 		"typescript": "~5.8.3",
-		"typescript-eslint": "^8.29.1",
-		"unocss": "^66.1.0-beta.10",
+		"typescript-eslint": "^8.30.1",
+		"unocss": "^66.1.0-beta.12",
 		"unplugin-auto-import": "^19.1.2",
-		"vite": "^6.2.6",
+		"vite": "^6.3.2",
 		"vite-plugin-pwa": "^1.0.0",
 		"vue-tsc": "^2.2.8"
 	}

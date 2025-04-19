@@ -11,16 +11,24 @@ const strings = computed(() => appStore.currentNote.strings)
 	<aside
 		:class="[
 			{
-				'shrink-0 w-[400px] border-l rounded-tl-xl': appStore.orientation !== 'portrait-primary',
+				'shrink-0 border-l rounded-tl-xl': appStore.orientation !== 'portrait-primary',
+				'w-[calc(400px+var(--safe-area-right))] pl-[16px] pr-safe': appStore.orientation === 'landscape-secondary',
+				'w-[400px] pr-[16px] pl-[16px]': appStore.orientation === 'landscape-primary',
+				'pr-[16px] pl-[16px]': (appStore.orientation === 'portrait-primary' || appStore.orientation === 'portrait-secondary')
 			},
-			'mt-auto pt-[16px] pr-[16px] pl-[16px] pb-safe border-t border-gray-200 bg-white bottom-0 left-0 sticky z-1',
+			'mt-auto pt-[16px] pb-safe border-t border-gray-200 bg-white bottom-0 left-0 sticky z-1',
 		]"
 	>
 		<details>
 			<summary class="px-[8px] py-[4px] border border-gray-200 rounded-xl bg-white cursor-pointer top-[-24px] absolute z-1">
 				Toolkit
 			</summary>
-			<div class="flex flex-col gap-[8px]">
+			<div
+				:class="[
+					(appStore.orientation === 'portrait-primary' || appStore.orientation === 'portrait-secondary') ? '' : 'relative',
+					'flex flex-col gap-[8px]',
+				]"
+			>
 				<Hand />
 
 				<div class="text-[18px] bg-white relative">

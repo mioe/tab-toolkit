@@ -114,7 +114,7 @@ defineExpose({
 					/>
 				</div>
 
-				<header class="flex top-[16px] sticky">
+				<header class="flex top-[16px] sticky z-1">
 					<button
 						class="p-[8px] text-center border border-gray-200 rounded-xl border-dashed bg-white flex flex-1 flex-col gap-[2px] cursor-pointer items-center justify-center"
 						@click="close"
@@ -159,7 +159,7 @@ defineExpose({
 									v-if="btnSharePressed"
 									class="text-blue-300 border-blue-700"
 								/>
-								share
+								share/view
 							</button>
 							<button
 								ref="btnEditRef"
@@ -170,7 +170,7 @@ defineExpose({
 									v-if="btnEditPressed"
 									class="text-green-300 border-green-700"
 								/>
-								edit/view
+								edit
 							</button>
 							<button
 								ref="btnRemoveRef"
