@@ -77,7 +77,7 @@ defineExpose({
 	<Teleport to="body">
 		<dialog
 			ref="dialogRef"
-			class="m-auto border border-gray-200 rounded-2xl h-[100svh] w-full select-none shadow-2xl"
+			class="m-auto border border-gray-200 rounded-2xl h-[100svh] max-w-[600px] w-full select-none shadow-2xl"
 		>
 			<div class="p-[16px] flex flex-col gap-[24px]">
 				<div class="flex flex-1">
