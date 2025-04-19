@@ -1,7 +1,7 @@
 import { entries as entriesIdb, set as setIdb, del as delIdb, update as updateIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import type { Note, Bar, Tab, SharedNote } from '~/consts'
-import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX } from '~/consts'
+import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX, DEFAULT_DEBUG_VALUE } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
 const FINGERS = 5
@@ -12,6 +12,8 @@ const DEFAULT_NOTE_STRING_WITHOUT_ID = JSON.stringify({
 	savedAt: null,
 	bars: DEFAULT_BARS,
 })
+
+const DEFAULT_DEBUG_VALUE_STRING = JSON.stringify(DEFAULT_DEBUG_VALUE)
 
 export const useAppStore = defineStore('app', () => {
 	const { isDesktop } = useIsDesktop()
@@ -24,7 +26,8 @@ export const useAppStore = defineStore('app', () => {
 
 	const params = useUrlSearchParams('history')
 	const debugSettings = useStorage(`${APP_PREFIX}:debug-settings`, {
-		isOpen: false,
+		isOpenPanel: false,
+		isBottomPanel: false,
 		showOrientation: false,
 	})
 
@@ -324,6 +327,13 @@ export const useAppStore = defineStore('app', () => {
 		}
 	}
 
+	function resetDebugSettings() {
+		const cloneDefault = JSON.parse(DEFAULT_DEBUG_VALUE_STRING)
+		debugSettings.value.isOpenPanel = cloneDefault.isOpenPanel
+		debugSettings.value.isBottomPanel = cloneDefault.isBottomPanel
+		debugSettings.value.showOrientation = cloneDefault.showOrientation
+	}
+
 	return {
 		params,
 		db,
@@ -358,6 +368,7 @@ export const useAppStore = defineStore('app', () => {
 		decodedNote,
 		setSeparator,
 		importToIdbNote,
+		resetDebugSettings,
 	}
 })
 

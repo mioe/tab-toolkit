@@ -2,6 +2,7 @@
 import Progress from '~/components/_common/Progress.vue'
 import packageJson from '../../package.json'
 const appStore = useAppStore()
+const { resetDebugSettings } = appStore
 
 const dialogRef = shallowRef<HTMLDialogElement | undefined>()
 
@@ -12,7 +13,12 @@ const btnLogoRef = shallowRef()
 const { pressed: btnLogoPressed } = useMousePressed({ target: btnLogoRef })
 async function onLongPressLogoCallback() {
 	btnLogoPressed.value = false
-	appStore.debugSettings.isOpen = !appStore.debugSettings.isOpen
+	if (appStore.debugSettings.isOpenPanel) {
+		resetDebugSettings()
+	} else {
+		appStore.debugSettings.isOpenPanel = true
+	}
+	close()
 }
 onLongPress(btnLogoRef, onLongPressLogoCallback, { delay: 1100 })
 

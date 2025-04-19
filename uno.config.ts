@@ -16,6 +16,7 @@ export default defineConfig({
 		['pb-safe', 'pb-[calc(16px+var(--safe-area-bottom))]'],
 		['pr-safe', 'pr-[calc(16px+var(--safe-area-right))]'],
 		['pl-safe', 'pl-[calc(16px+var(--safe-area-left))]'],
+		['debug-btn', `${BTN_BASE} text-white border-white border-dashed`],
 	],
 	rules: [
 		['scrolling-touch', { '-webkit-overflow-scrolling': 'touch' }],

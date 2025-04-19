@@ -9,6 +9,11 @@ export const DEFAULT_NAME = 'Song'
 export const DEFAULT_STRING = 6
 export const DEFAULT_BARS = [{}]
 export const DEFAULT_BAR_IDX = 0
+export const DEFAULT_DEBUG_VALUE = {
+	isOpenPanel: false,
+	isBottomPanel: false,
+	showOrientation: false,
+}
 
 export interface Tab {
 	tab?: number | 'x'

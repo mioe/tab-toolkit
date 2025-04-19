@@ -1,15 +1,21 @@
 # Changelog
 
+## [v3] - Bugfix
+### Added
+- Init debug panel
+### Fixed
+- Fix desktop version
+
 ## [v2] - Upgrade
-## Added
+### Added
 - Adaptive for orientation property
 - Update styling
 - Add confetti
-## Fixed
+### Fixed
 - Visual bugs
 
-## [v1] - Bugfix
 
+## [v1] - Bugfix
 ### Added
 - Hand in readonly page
 - Author name and url
@@ -19,7 +25,6 @@
 
 
 ## [v0] - Initial Release
-
 ### Added
 - PWA support and offline functionality using `localStorage` and `IndexedDB`
 - Unique app design
