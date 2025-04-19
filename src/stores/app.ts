@@ -258,7 +258,8 @@ export const useAppStore = defineStore('app', () => {
 
 		const fNote = db.value.find((note) => note.id === noteId)
 		if (fNote) {
-			setNote(fNote.name, fNote.strings, fNote.bars, fNote.id, fNote.savedAt)
+			const clone = JSON.parse(JSON.stringify(fNote))
+			setNote(clone.name, clone.strings, clone.bars, clone.id, clone.savedAt)
 		}
 	}
 
