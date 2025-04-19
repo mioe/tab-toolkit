@@ -48,7 +48,7 @@ const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 			:bars="appStore.currentNote.bars"
 			:strings="appStore.currentNote.strings"
 			:current-bar-idx="appStore.currentBarIdx"
-			@click-bar="setCurrentBarIdx($event)"
+			@change="setCurrentBarIdx($event)"
 		>
 			<div class="flex flex-col min-h-[130px]">
 				<button
