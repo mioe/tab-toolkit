@@ -14,10 +14,10 @@ const DEFAULT_NOTE_STRING_WITHOUT_ID = JSON.stringify({
 })
 
 export const useAppStore = defineStore('app', () => {
-	const isDesktop = useMediaQuery('(min-width: 1024px)')
+	const { isDesktop } = useIsDesktop()
 	const { orientation: useOrientation } = useScreenOrientation()
 	const orientation = computed<OrientationType>(() => {
-		if (isDesktop) { return 'portrait-primary' }
+		if (isDesktop.value) { return 'portrait-primary' }
 		else if (useOrientation.value) { return useOrientation.value }
 		return 'portrait-primary'
 	})
@@ -332,6 +332,7 @@ export const useAppStore = defineStore('app', () => {
 		author,
 		canUpdated,
 		orientation,
+		isDesktop,
 
 		nextBar,
 		prevBar,
