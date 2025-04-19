@@ -2,7 +2,7 @@
 import type { Bar } from '~/consts'
 import { ColorFinger } from '~/consts'
 
-const { readonly = false } = defineProps<{
+const { readonly = false, currentBarIdx } = defineProps<{
 	bars: Bar[]
 	strings: number
 	currentBarIdx?: number
@@ -12,6 +12,13 @@ const { readonly = false } = defineProps<{
 const emit = defineEmits<{
 	(e: 'change', idx: number): void
 }>()
+
+const btnBarsRef = shallowRef()
+async function onLongPressBarsCallback() {
+	if (readonly) { return }
+	console.log('🦕 gg', currentBarIdx)
+}
+onLongPress(btnBarsRef, onLongPressBarsCallback, { delay: 1100 })
 
 const isDragging = ref(false)
 
@@ -29,6 +36,7 @@ function handleClick(e: MouseEvent | TouchEvent) {
 
 function onPointerDown(e: MouseEvent | TouchEvent) {
 	if (readonly) return
+
 	isDragging.value = true
 	handleDrag(e)
 }
@@ -80,7 +88,8 @@ onBeforeUnmount(() => {
 
 <template>
 	<div
-		class="flex flex-wrap gap-y-[16px]"
+		ref="btnBarsRef"
+		class="pt-[16px] flex flex-wrap gap-y-[32px]"
 		@click="handleClick"
 		@mousedown="onPointerDown"
 		@touchstart="onPointerDown"
@@ -102,7 +111,7 @@ onBeforeUnmount(() => {
 					'ring-2 ring-gray-200': currentBarIdx === idx,
 					'cursor-pointer': !readonly,
 				},
-				'flex flex-col-reverse p-[2px] rounded w-[25px] text-center relative',
+				'flex flex-col-reverse p-[2px] rounded w-[32px] text-center relative',
 			]"
 		>
 			<template v-if="bar.separator">
@@ -127,7 +136,7 @@ onBeforeUnmount(() => {
 				<div
 					v-for="str in strings"
 					:key="str"
-					class="relative"
+					class="flex justify-center relative"
 				>
 					<div class="bg-gray-100 h-[4px] w-[calc(100%+16px)] left-0 top-[calc(50%-2px)] absolute -z-1" />
 					<p
@@ -135,7 +144,7 @@ onBeforeUnmount(() => {
 							{
 								'bg-[--c] bg-opacity-30': bar[str]?.finger,
 							},
-							'text-center h-[22px] rounded-xl',
+							'text-center h-[22px] w-[22px] rounded',
 						]"
 						:style="{
 							'--c': bar[str]?.finger === 1
