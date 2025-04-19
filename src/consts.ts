@@ -22,6 +22,7 @@ export interface Tab {
 
 export type Bar = Record<string, Tab | undefined> & {
 	separator?: boolean
+	comment?: string
 }
 
 export interface Note {

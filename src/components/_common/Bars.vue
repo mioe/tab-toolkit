@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Bar } from '~/consts'
 import { ColorFinger } from '~/consts'
+import Comment from '~/components/Comment.vue'
 
 const { readonly = false, currentBarIdx } = defineProps<{
 	bars: Bar[]
@@ -13,16 +14,19 @@ const emit = defineEmits<{
 	(e: 'change', idx: number): void
 }>()
 
+const commentRef = shallowRef<InstanceType<typeof Comment> | undefined>()
+
 const currentBarPositionX = ref(0)
 const currentBarPositionY = ref(0)
 
 const btnBarsRef = shallowRef()
 async function onLongPressBarsCallback() {
 	if (readonly) { return }
-	console.log('🦕 gg', currentBarIdx)
+	btnBarsPressed.value = false
+	commentRef.value?.open(currentBarIdx as number)
 }
 onLongPress(btnBarsRef, onLongPressBarsCallback, { delay: 1100 })
-
+const { pressed: btnBarsPressed } = useMousePressed({ target: btnBarsRef })
 const isDragging = ref(false)
 
 function handleClick(e: MouseEvent | TouchEvent) {
@@ -114,12 +118,14 @@ onBeforeUnmount(() => {
 		</div>
 
 		<div
-			class="bg-red h-[10px] w-[10px] left-[var(--x)] top-[var(--y)] fixed z-9"
+			v-show="btnBarsPressed"
+			class="text-white rounded bg-blue flex h-[16px] w-[16px] ring-2 ring-blue items-center left-[var(--x)] top-[var(--y)] justify-center fixed z-9 anime"
 			:style="{
-				'--y': currentBarPositionY + 'px',
-				'--x': currentBarPositionX + 'px',
+				'--y': (currentBarPositionY - 12) + 'px',
+				'--x': (currentBarPositionX + 8) + 'px',
 			}"
 		>
+			<p>🐣</p>
 		</div>
 
 		<div
@@ -135,10 +141,10 @@ onBeforeUnmount(() => {
 			]"
 		>
 			<div
-				v-if="2 === idx"
-				class="text-[8px] leading-[8px] w-[100px] top-[-10px] absolute line-clamp-1"
+				v-if="0 === idx"
+				class="text-[8px] leading-[8px] text-center w-[28px] top-[-10px] absolute line-clamp-1"
 			>
-				Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quibusdam sunt quos laboriosam molestiae optio, sed dolor repellat tempore quas eligendi, laborum quam impedit quo cum amet consectetur repudiandae libero. Maxime!
+				<p>{{ 'hello world' }}</p>
 			</div>
 
 			<template v-if="bar.separator">
@@ -204,4 +210,6 @@ onBeforeUnmount(() => {
 			></div>
 		</div>
 	</div>
+
+	<Comment ref="commentRef" />
 </template>
