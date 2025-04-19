@@ -23,7 +23,7 @@ onMounted(async() => {
 	<div
 		:class="[
 			{
-				'flex-col': appStore.orientation === 'portrait-primary',
+				'flex-col gap-[24px]': appStore.orientation === 'portrait-primary',
 			},
 			'flex min-h-[100svh] select-none relative',
 		]"
