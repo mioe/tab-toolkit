@@ -10,11 +10,11 @@ const dialogRef = shallowRef<InstanceType<typeof Dialog> | undefined>()
 	<main
 		:class="[
 			appStore.orientation === 'landscape-primary' ? 'pl-safe pr-[16px]' : 'px-[16px]',
-			'pb-safe pt-[16px] flex flex-col gap-[16px]',
+			'pb-safe pt-[16px] flex flex-col gap-[16px] flex-1',
 		]"
 	>
 		<button
-			class="btn px-[8px] rounded-xl flex-1"
+			class="btn px-[8px] rounded-xl flex-1 max-h-[28px]"
 			@click="dialogRef?.open"
 		>
 			open dialog
