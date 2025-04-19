@@ -34,28 +34,32 @@ defineExpose({
 		class="m-auto p-[16px] border border-gray-200 rounded-2xl select-none shadow-2xl"
 	>
 		<div class="flex flex-col items-center justify-center">
-			<button
-				class="btn"
-				@click="close"
-			>
-				close about
-			</button>
+			<div class="flex flex-1">
+				<button
+					class="btn px-[8px] rounded-l-xl rounded-r-none flex-1"
+					@click="close"
+				>
+					close about
+				</button>
 
-			<button
-				ref="btnLogoRef"
-				class="relative"
-			>
-				<Progress
-					v-if="btnLogoPressed"
-					class="text-blue-300 border-blue-700 rounded-xl"
-				/>
+				<button
+					ref="btnLogoRef"
+					class="btn px-[16px] rounded-l-none rounded-r-xl border-l-none relative"
+				>
+					<Progress
+						v-if="btnLogoPressed"
+						class="text-gray-900 border-black rounded-xl"
+					/>
 
-				<img
-					src="/tab-toolkit.webp"
-					alt="app-icon"
-					class="w-[200px]"
-				/>
-			</button>
+					debug
+				</button>
+			</div>
+
+			<img
+				src="/tab-toolkit.webp"
+				alt="app-icon"
+				class="w-[200px]"
+			/>
 
 			<div class="text-center">
 				<h2>tab-toolkit</h2>
