@@ -3,6 +3,7 @@ import Badge from '~/components/_common/Badge.vue'
 import Bars from '~/components/_common/Bars.vue'
 import Progress from '~/components/_common/Progress.vue'
 import HandIcon from '~/components/_common/HandIcon.vue'
+import ConfettiAlert from '~/components/_common/ConfettiAlert.vue'
 import { UseClipboard } from '@vueuse/components'
 
 const appStore = useAppStore()
@@ -90,16 +91,15 @@ onMounted(() => {
 				>
 					<button
 						class="btn relative"
+						:disabled="copied"
 						@click="copy()"
 					>
-						<span
-							v-if="copied"
-							class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
-						>
-							DONE!
-						</span>
 						copy url
 					</button>
+					<ConfettiAlert
+						v-if="copied"
+						msg="copying url was successful!"
+					/>
 				</UseClipboard>
 				<UseClipboard
 					v-slot="{ copy, copied }"
@@ -107,16 +107,15 @@ onMounted(() => {
 				>
 					<button
 						class="btn relative"
+						:disabled="copied"
 						@click="copy()"
 					>
-						<span
-							v-if="copied"
-							class="text-green-700 rounded-xl bg-white flex translate-x-[-50%] left-[50%] top-[-24px] absolute z-1"
-						>
-							DONE!
-						</span>
 						copy base64
 					</button>
+					<ConfettiAlert
+						v-if="copied"
+						msg="copying base64 was successful!"
+					/>
 				</UseClipboard>
 
 				<div class="trans text-gray-300 h-[60px] w-[60px] right-[-24px] top-[20px] absolute">
