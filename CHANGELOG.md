@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4] - Bugfix
+### Fixed
+- Open debug panel
+
 ## [v3] - Bugfix
 ### Added
 - Init debug panel

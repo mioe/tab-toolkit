@@ -1,11 +1,15 @@
 <script setup lang="ts">
 const appStore = useAppStore()
+const buildDate = import.meta.env.VITE_BUILD_DATE
 </script>
 
 <template>
 	<div class="text-white p-[16px] bg-black flex flex-col gap-[16px] w-full relative z-9">
 		<header class="flex gap-[16px] items-center justify-between">
-			<p>Debug</p>
+			<div>
+				<p>Debug</p>
+				<span class="text-[8px]">{{ buildDate }}</span>
+			</div>
 
 			<div>
 				<button
