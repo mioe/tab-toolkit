@@ -24,7 +24,7 @@ onMounted(async() => {
 	<div
 		:class="[
 			appStore.debugSettings.isBottomPanel ? 'flex-col' : 'flex-col-reverse',
-			'flex',
+			'flex relative',
 		]"
 	>
 		<div
@@ -32,7 +32,7 @@ onMounted(async() => {
 				{
 					'flex-col gap-[24px]': appStore.orientation === 'portrait-primary',
 				},
-				'flex min-h-[100svh] select-none relative',
+				'flex min-h-[100svh] select-none',
 			]"
 		>
 			<div

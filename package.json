@@ -1,7 +1,7 @@
 {
 	"name": "tab-toolkit",
 	"private": true,
-	"version": "5",
+	"version": "6",
 	"type": "module",
 	"engines": {
 		"node": ">=22"

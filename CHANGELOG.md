@@ -1,5 +1,10 @@
 # Changelog
 
+## [v6] - Bugfix
+### Fixed
+- Visual bugs
+
+
 ## [v5] - Upgrade
 ### Added
 - Comment in bar

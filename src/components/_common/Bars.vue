@@ -118,8 +118,8 @@ onBeforeUnmount(() => {
 		</div>
 
 		<div
-			v-show="btnBarsPressed"
-			class="text-white rounded bg-blue flex h-[16px] w-[16px] ring-2 ring-blue items-center left-[var(--x)] top-[var(--y)] justify-center fixed z-9 anime"
+			v-show="btnBarsPressed && !readonly"
+			class="text-white rounded bg-blue flex h-[16px] w-[16px] ring-2 ring-blue items-center left-[var(--x)] top-[var(--y)] justify-center absolute z-9 anime"
 			:style="{
 				'--y': (currentBarPositionY - 12) + 'px',
 				'--x': (currentBarPositionX + 8) + 'px',
@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
 					<p
 						:class="[
 							{
-								'bg-[--c] bg-opacity-30': bar[str]?.finger,
+								'bg-[--c] bg-opacity-30 border-b-2 border-[--c]': bar[str]?.finger,
 							},
 							'text-center h-[22px] w-[22px] rounded',
 						]"
