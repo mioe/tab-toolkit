@@ -1,14 +1,23 @@
 # Changelog
 
+## [v5] - Upgrade
+### Added
+- Comment in bar
+### Updated
+- Bars and Note
+
+
 ## [v4] - Bugfix
 ### Fixed
 - Open debug panel
+
 
 ## [v3] - Bugfix
 ### Added
 - Init debug panel
 ### Fixed
 - Fix desktop version
+
 
 ## [v2] - Upgrade
 ### Added
