@@ -141,10 +141,10 @@ onBeforeUnmount(() => {
 			]"
 		>
 			<div
-				v-if="0 === idx"
+				v-if="bar.comment"
 				class="text-[8px] leading-[8px] text-center w-[28px] top-[-10px] absolute line-clamp-1"
 			>
-				<p>{{ 'hello world' }}</p>
+				<p>{{ bar.comment }}</p>
 			</div>
 
 			<template v-if="bar.separator">

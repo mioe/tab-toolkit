@@ -1,7 +1,7 @@
 import { entries as entriesIdb, set as setIdb, del as delIdb, update as updateIdb } from 'idb-keyval'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import type { Note, Bar, Tab, SharedNote } from '~/consts'
-import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX, DEFAULT_DEBUG_VALUE } from '~/consts'
+import { DEFAULT_NAME, DEFAULT_STRING, DEFAULT_BARS, DEFAULT_BAR_IDX, DEFAULT_DEBUG_VALUE, DEMO_NAME, DEMO_STRING, DEMO_BARS } from '~/consts'
 
 const APP_PREFIX = 'tab-toolkit'
 const FINGERS = 5
@@ -37,10 +37,10 @@ export const useAppStore = defineStore('app', () => {
 
 	const currentNote = useStorage<Note>(`${APP_PREFIX}:current-note`, {
 		id: crypto.randomUUID(),
-		name: DEFAULT_NAME,
-		strings: DEFAULT_STRING,
+		name: DEMO_NAME,
+		strings: DEMO_STRING,
 		savedAt: null,
-		bars: JSON.parse(DEFAULT_NOTE_STRING_WITHOUT_ID).bars,
+		bars: JSON.parse(JSON.stringify(DEMO_BARS)),
 	})
 	const currentBarIdx = ref(DEFAULT_BAR_IDX)
 	const currentFingerIdx = ref(0)
@@ -105,6 +105,7 @@ export const useAppStore = defineStore('app', () => {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-expect-error
 			currentNote.value.bars[currentBarIdx.value] = {
+				comment: currentNote.value.bars[currentBarIdx.value].comment,
 				separator: true,
 			}
 			if (soloMode.value) {
@@ -335,6 +336,23 @@ export const useAppStore = defineStore('app', () => {
 		debugSettings.value.showOrientation = cloneDefault.showOrientation
 	}
 
+	function setComment(barIdx: number, val: string) {
+		const currentBar = currentNote.value.bars[barIdx]
+		if (currentBar) {
+			if (val) {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-expect-error
+				currentNote.value.bars[barIdx] = {
+					...currentNote.value.bars[barIdx],
+					comment: val,
+				}
+			} else {
+				delete currentNote.value.bars[barIdx].comment
+			}
+			commit()
+		}
+	}
+
 	return {
 		params,
 		db,
@@ -370,6 +388,7 @@ export const useAppStore = defineStore('app', () => {
 		setSeparator,
 		importToIdbNote,
 		resetDebugSettings,
+		setComment,
 	}
 })
 
