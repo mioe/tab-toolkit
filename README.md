@@ -1,5 +1,23 @@
-# Vue 3 + TypeScript + Vite
+# tab-toolkit
+> very small app-tool for beginner guitarists 🎸
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![logo](/public/tab-toolkit.webp)
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## features
+- offline mode (powered pwa)
+- full adaptive app for mobile first
+- sharing tabs without backend saved
+- only local data (via localStorage && indexedDB)
+- unique and minimalistic design
+
+## contributing
+contributions are welcome and happy enjoin!
+
+## install project
+```
+npm install
+npm run dev
+```
+
+## license
+this project is licensed under the [MIT License](/LICENSE)
