@@ -1,5 +1,10 @@
 # Changelog
 
+## [v7] - Bugfix
+### Fixed
+- Visual bugs
+
+
 ## [v6] - Bugfix
 ### Fixed
 - Visual bugs

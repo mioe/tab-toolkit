@@ -33,7 +33,7 @@ const strings = computed(() => appStore.currentNote.strings)
 				<Hand />
 
 				<div class="text-[18px] bg-white relative">
-					<div class="py-[8px] flex flex-col-reverse gap-[4px] w-full left-0 top-[1px] absolute">
+					<div class="py-[8px] flex flex-col gap-[4px] w-full left-0 top-[1px] absolute">
 						<div
 							v-for="str in strings"
 							:key="str"
